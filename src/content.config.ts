@@ -1,6 +1,20 @@
 import { defineCollection, z } from 'astro:content';
-import { glob, file } from 'astro/loaders';
+import { glob } from 'astro/loaders';
 import toml from 'toml';
+
+// ═══════════════════════════════════════════════════════
+// Remote TOML source — single source of truth from the
+// CV repo (github.com/jrmougan/cv)
+// ═══════════════════════════════════════════════════════
+
+const CV_TOML_URL =
+  'https://raw.githubusercontent.com/jrmougan/cv/main/cv_data.toml';
+
+async function fetchCvToml(): Promise<Record<string, any>> {
+  const res = await fetch(CV_TOML_URL);
+  if (!res.ok) throw new Error(`Failed to fetch CV TOML: ${res.status}`);
+  return toml.parse(await res.text());
+}
 
 // ═══════════════════════════════════════════════════════
 // Zod schemas for CV data
@@ -61,16 +75,19 @@ const labelsSchema = z.object({
 // ═══════════════════════════════════════════════════════
 
 const cvShared = defineCollection({
-  loader: file('typst_toml/cv_data.toml', {
-    parser: (text) => {
-      const data = toml.parse(text);
-      return [{
+  loader: {
+    name: 'cv-shared-loader',
+    async load({ store }) {
+      const data = await fetchCvToml();
+      store.set({
         id: 'shared',
-        personal_info: data.shared.personal_info,
-        skills: data.shared.skills,
-      }];
+        data: {
+          personal_info: data.shared.personal_info,
+          skills: data.shared.skills,
+        },
+      });
     },
-  }),
+  },
   schema: z.object({
     personal_info: z.object({
       name: z.string(),
@@ -88,19 +105,24 @@ const cvShared = defineCollection({
 // ═══════════════════════════════════════════════════════
 
 const cvLang = defineCollection({
-  loader: file('typst_toml/cv_data.toml', {
-    parser: (text) => {
-      const data = toml.parse(text);
-      return ['es', 'en', 'gl'].map((lang) => ({
-        id: lang,
-        labels: data[lang].labels,
-        personal_info: data[lang].personal_info,
-        experience: data[lang].experience,
-        education: data[lang].education,
-        languages: data[lang].languages,
-      }));
+  loader: {
+    name: 'cv-lang-loader',
+    async load({ store }) {
+      const data = await fetchCvToml();
+      for (const lang of ['es', 'en', 'gl']) {
+        store.set({
+          id: lang,
+          data: {
+            labels: data[lang].labels,
+            personal_info: data[lang].personal_info,
+            experience: data[lang].experience,
+            education: data[lang].education,
+            languages: data[lang].languages,
+          },
+        });
+      }
     },
-  }),
+  },
   schema: z.object({
     labels: labelsSchema,
     personal_info: z.object({
