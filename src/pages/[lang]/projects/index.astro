@@ -1,0 +1,106 @@
+---
+import { getCollection } from 'astro:content';
+import { SUPPORTED_LANGUAGES } from '../../../utils/data';
+import Layout from '../../../layouts/Layout.astro';
+import Navbar from '../../../components/Navbar.astro';
+import Footer from '../../../components/Footer.astro';
+import SectionHeader from '../../../components/SectionHeader.astro';
+import ProjectCard from '../../../components/ProjectCard.astro';
+
+export function getStaticPaths() {
+  return SUPPORTED_LANGUAGES.map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params;
+
+const allProjects = await getCollection('projects', (entry) => {
+  return entry.data.lang === lang && !entry.data.draft;
+});
+
+// Sort: featured first, then by date descending
+const projects = allProjects.sort((a, b) => {
+  if (a.data.featured && !b.data.featured) return -1;
+  if (!a.data.featured && b.data.featured) return 1;
+  return b.data.date.getTime() - a.data.date.getTime();
+});
+
+const pageLabels: Record<string, Record<string, string>> = {
+  es: { title: 'Proyectos', empty: 'No hay proyectos todavía.' },
+  en: { title: 'Projects', empty: 'No projects yet.' },
+  gl: { title: 'Proxectos', empty: 'Non hai proxectos aínda.' },
+};
+
+const labels = pageLabels[lang as string] || pageLabels.es;
+
+function getProjectSlug(id: string): string {
+  const parts = id.split('/');
+  const filename = parts[parts.length - 1];
+  return filename.replace(/\.(mdx?|md)$/, '');
+}
+---
+
+<Layout title={`${labels.title} | JRM`} lang={lang}>
+  <Navbar lang={lang} activePage="projects" basePath="projects" />
+
+  <main class="container page-content">
+    <SectionHeader title={labels.title} />
+
+    {projects.length === 0 ? (
+      <div class="empty-state terminal-panel">
+        <div class="terminal-panel-header">
+          <span class="terminal-panel-title">~/projects</span>
+        </div>
+        <div class="terminal-panel-body">
+          <p class="empty-text">{labels.empty}</p>
+        </div>
+      </div>
+    ) : (
+      <div class="projects-list">
+        {projects.map((project) => {
+          const slug = getProjectSlug(project.id);
+          return (
+            <ProjectCard
+              title={project.data.title}
+              description={project.data.description}
+              slug={slug}
+              lang={lang}
+              tags={project.data.tags}
+              date={project.data.date}
+              url={project.data.url}
+              status={project.data.status}
+              featured={project.data.featured}
+            />
+          );
+        })}
+      </div>
+    )}
+  </main>
+
+  <Footer text={`ls projects/ | wc -l = ${projects.length}`} />
+</Layout>
+
+<style>
+  .page-content {
+    padding-top: 88px;
+    padding-bottom: 3rem;
+  }
+
+  .projects-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .empty-text {
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    .page-content {
+      padding-top: 76px;
+    }
+  }
+</style>

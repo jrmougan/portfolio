@@ -1,0 +1,41 @@
+#:schema ../schemas/cv-schema.toml
+
+[config]
+default_language = "es"
+
+[shared]
+[shared.styles.fonts]
+base = ["Geist Pixel Square"]
+mono = ["Geist Pixel Square"]
+section_title = ["Geist Pixel Square"]
+terminal = ["Geist Pixel Square"]
+
+[shared.styles.sizes]
+header_name = "22pt"
+header_position = "10pt"
+normal = "8pt"
+item_h1 = "10pt"
+item_h2 = "9pt"
+item_h3 = "8pt"
+section_title = "12pt"
+tag = "7pt"
+
+[shared.styles.colors]
+# Light Retro Terminal
+background = "#FCF5E3"
+primary = "#3A8BA4"       # Blue from the palette
+secondary = "#75828A"     # Greyish text
+accent = "#D9615D"        # Pale Red
+text = "#4A545C"          # Dark Slate
+muted = "#E5DBC7"         # Muted bg color for tags/quiet items
+header_bg = "#FCF5E3"     # Slightly darker cream
+header_text = "#4A545C"
+header_dim = "#9AA4A8"
+terminal_text = "#839A3A" # Moss Green for the prompt and borders
+section_title = "#839A3A" # Moss Green for section titles
+
+[shared.styles.colors.categories]
+frontend = "#3A8BA4" # Blue
+backend = "#C57A9D"  # Pink
+tools = "#DA8E27"    # Orange/Yellow
+gamedev = "#D9615D"  # Red

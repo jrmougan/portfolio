@@ -1,0 +1,356 @@
+[shared]
+[shared.personal_info]
+name = "Jesús Romeo Mougán"
+photo = "./img/profile-photo.jpeg"
+
+[shared.personal_info.contact]
+email = "jrmougan@gmail.com"
+phone = "+34 666 362 583"
+address = "Santiago de Compostela, (A Coruña)"
+link = "linkedin.com/in/jesús-romeo-mougán-750706186"
+
+[[shared.skills]]
+items = [
+    { name = "React", val = 9, cat = "frontend" },
+    { name = "TypeScript", val = 8, cat = "frontend" },
+    { name = "JavaScript", val = 9, cat = "frontend" },
+    { name = "Node.js", val = 6, cat = "backend" },
+    { name = "HTML", val = 9, cat = "frontend" },
+    { name = "CSS", val = 8, cat = "frontend" },
+    { name = "TailwindCSS", val = 7, cat = "frontend" },
+    { name = "Next.js", val = 7, cat = "frontend" },
+    { name = "Redux", val = 6, cat = "frontend" },
+    { name = "Zustand", val = 7, cat = "frontend" },
+    { name = "Styled-Components", val = 8, cat = "frontend" },
+    { name = "Storybook", val = 7, cat = "frontend" },
+    { name = "REST APIs", val = 8, cat = "backend" },
+    { name = "MySQL", val = 6, cat = "backend" },
+    { name = "MongoDB", val = 6, cat = "backend" },
+    { name = "Prisma", val = 6, cat = "backend" },
+    { name = "Git", val = 9, cat = "tools" },
+    { name = "Docker", val = 6, cat = "tools" },
+    { name = "GitHub Actions", val = 6, cat = "tools" },
+    { name = "Vitest", val = 8, cat = "tools" },
+    { name = "Jest", val = 7, cat = "tools" },
+    { name = "React Testing Library", val = 8, cat = "tools" },
+    { name = "Jira", val = 7, cat = "tools" },
+]
+
+[es]
+[es.labels]
+location = "Ubicación"
+phone = "Teléfono"
+email = "Email"
+education = "Educación"
+experience = "Experiencia"
+projects = "Proyectos"
+languages = "Idiomas"
+present = "Actualidad"
+
+[es.personal_info]
+position = "Desarrollador Frontend"
+summary = "Desarrollador Frontend con más de 4 años de experiencia en React, TypeScript y JavaScript. Especializado en construir módulos de negocio en producción, librerías de componentes y sistemas de testing (Vitest, React Testing Library). Experiencia tanto como único frontend en proyectos de investigación como en equipos de +7 desarrolladores con Scrum y code review."
+
+[[es.experience]]
+company = "EMAIS Grupo"
+logo = "./img/logos/logo-emais.png"
+position = "Desarrollador Frontend"
+location = "Remoto"
+date = "Julio 2023 - Actualidad"
+description = "Desarrollo de módulos frontend en React y TypeScript dentro de un equipo de +7 desarrolladores en una empresa de soluciones de gestión empresarial, con Scrum, code review obligatorio y gestión en Jira."
+tags = [
+    "React",
+    "TypeScript",
+    "JavaScript",
+    "Styled-Components",
+    "Storybook",
+    "Jest",
+    "Vitest",
+    "React Testing Library",
+    "Redux",
+    "Zustand",
+    "Node.js",
+    "Git",
+    "Jira",
+]
+tasks = [
+    "Diseñé e implementé módulos de negocio en React con TypeScript, Styled-Components y formularios dinámicos (RJSF/JSONSchema), entregando múltiples módulos en producción.",
+    "Desarrollé una librería de componentes UI reutilizables documentada en Storybook y redacté documentación técnica interna, mejorando la consistencia visual y reduciendo el tiempo de desarrollo de nuevas vistas.",
+    "Ejecuté la migración del framework de testing de Jest a Vitest, escribiendo tests unitarios y de integración con React Testing Library.",
+    "Participé en el refactor progresivo de módulos legacy AngularJS a React con Zustand, mejorando los tiempos de carga y la mantenibilidad del código.",
+]
+
+[[es.experience]]
+company = "CiTIUS (Universidade de Santiago de Compostela)"
+logo = "./img/logos/logo_citius.png"
+position = "Desarrollador Frontend"
+location = "Santiago de Compostela"
+date = "Abril 2022 - Abril 2023"
+description = "Desarrollo desde cero de la interfaz web del proyecto LexGal en el Centro de Investigación en Tecnoloxías Intelixentes (CiTIUS/USC) como único frontend developer: definición de la arquitectura de componentes React, flujos de usuario y herramienta de importación, edición, versionado y consolidación de normativa autonómica en formato XML."
+tags = ["React", "Redux", "JavaScript", "TailwindCSS", "REST APIs", "SpringBoot", "MongoDB"]
+tasks = [
+    "Diseñé e implementé el sistema de control de versiones y seguimiento de cambios sobre documentos XML normativos, con diff visual entre versiones, historial navegable y auditoría de modificaciones por usuario.",
+    "Implementé edición colaborativa en tiempo real mediante WebSockets (STOMP/SockJS), permitiendo que múltiples usuarios editasen simultáneamente documentos XML normativos.",
+    "Integré el frontend con una API REST SpringBoot y MongoDB, diseñando los flujos de importación y gestión documental.",
+]
+
+[[es.experience]]
+company = "SDWEB"
+logo = "./img/logos/sdweb_logo.png"
+position = "Desarrollador Full-Stack"
+location = "Santiago de Compostela"
+date = "2014 - 2015"
+description = "Desarrollo Full-Stack en entornos LMS y CMS, con creación de aplicaciones móviles híbridas."
+tags = ["PHP", "JavaScript", "MySQL", "HTML", "CSS", "API SCORM", "Moodle"]
+
+
+[[es.education]]
+institution = "IES San Clemente"
+logo = "./img/logos/logo_xunta.png"
+degree = "Curso de especialización en Videojuegos y Realidad Virtual"
+location = "Santiago de Compostela"
+date = "2024 - 2025"
+description = ""
+tags = ["Unity", "C#", "Blender"]
+
+[[es.education]]
+institution = "Conservatorio Superior de Música de A Coruña"
+logo = "./img/logos/logo_csm.png"
+degree = "Grado en Enseñanzas Artísticas Superiores de Música"
+location = "A Coruña"
+date = "2015 - 2020"
+description = ""
+tags = ["Trabajo en Equipo", "Disciplina", "Atención al Detalle", "Resolución de Problemas"]
+
+[[es.education]]
+institution = "IES Ramón Mª Aller Ulloa"
+logo = "./img/logos/logo_xunta.png"
+degree = "Técnico Superior en Desarrollo de Aplicaciones WEB (FP.II)"
+location = "Lalín, Pontevedra"
+date = "2012 - 2014"
+description = ""
+tags = ["JavaScript", "PHP", "HTML", "CSS", "Symfony", "CodeIgniter", "jQuery", "MySQL", "Java"]
+
+[[es.languages]]
+language = "Gallego"
+level = "Materna"
+
+[[es.languages]]
+language = "Español"
+level = "Nativo"
+
+[[es.languages]]
+language = "Inglés"
+level = "B2 - Lectura técnica diaria. Comunicación profesional escrita y oral"
+
+[en]
+[en.labels]
+location = "Location"
+phone = "Phone"
+email = "Email"
+education = "Education"
+experience = "Experience"
+projects = "Projects"
+languages = "Languages"
+present = "Present"
+
+[en.personal_info]
+position = "Frontend Developer"
+summary = "Frontend Developer with 4+ years of experience in React, TypeScript, and JavaScript. Specialized in building production business modules, component libraries, and testing systems (Vitest, React Testing Library). Experience both as sole frontend on research projects and in 7+ developer teams with Scrum and code review."
+
+[[en.experience]]
+company = "EMAIS Grupo"
+position = "Frontend Developer"
+logo = "./img/logos/logo-emais.png"
+location = "Remote"
+date = "July 2023 - Present"
+description = "Frontend module development in React and TypeScript within a 7+ developer team at an enterprise management solutions company, following Scrum with mandatory code review and Jira-based project management."
+tags = [
+    "React",
+    "TypeScript",
+    "JavaScript",
+    "Styled-Components",
+    "Storybook",
+    "Jest",
+    "Vitest",
+    "React Testing Library",
+    "Redux",
+    "Zustand",
+    "Node.js",
+    "Git",
+    "Jira",
+]
+tasks = [
+    "Designed and implemented business modules in React with TypeScript, Styled-Components, and dynamic forms (RJSF/JSONSchema), delivering multiple modules to production.",
+    "Developed a reusable UI component library documented in Storybook and wrote internal technical documentation, improving visual consistency and reducing development time for new views.",
+    "Drove the testing framework migration from Jest to Vitest, writing unit and integration tests with React Testing Library.",
+    "Participated in the progressive refactoring of legacy AngularJS modules to React with Zustand, improving load times and code maintainability.",
+]
+
+[[en.experience]]
+company = "CiTIUS (University of Santiago de Compostela)"
+position = "Frontend Developer"
+logo = "./img/logos/logo_citius.png"
+location = "Santiago de Compostela"
+date = "April 2022 - April 2023"
+description = "Built from scratch the web interface for the LexGal project at the Center for Intelligent Technologies Research (CiTIUS/USC) as sole frontend developer: defined the React component architecture, user flows, and a tool for importing, editing, versioning, and consolidating regional regulations in XML format."
+tags = ["React", "Redux", "JavaScript", "TailwindCSS", "REST APIs", "SpringBoot", "MongoDB"]
+tasks = [
+    "Designed and implemented the version control and change tracking system for XML regulatory documents, featuring visual diff between versions, browsable history, and per-user change auditing.",
+    "Implemented real-time collaborative editing via WebSockets (STOMP/SockJS), enabling multiple users to simultaneously edit XML regulatory documents.",
+    "Integrated the frontend with a SpringBoot REST API and MongoDB, designing the document import and management workflows.",
+]
+
+[[en.experience]]
+company = "SDWEB"
+position = "Full-Stack Developer"
+logo = "./img/logos/sdweb_logo.png"
+location = "Santiago de Compostela"
+date = "2014 - 2015"
+description = "Full-Stack development in LMS and CMS environments, including hybrid mobile application development."
+tags = ["PHP", "JavaScript", "MySQL", "HTML", "CSS", "SCORM API", "Moodle"]
+
+[[en.education]]
+institution = "IES San Clemente"
+logo = "./img/logos/logo_xunta.png"
+degree = "Specialization in Video Games and Virtual Reality"
+location = "Santiago de Compostela"
+date = "2024 - 2025"
+description = ""
+tags = ["Unity", "C#", "Blender"]
+
+[[en.education]]
+institution = "Conservatorio Superior de Música de A Coruña"
+logo = "./img/logos/logo_csm.png"
+degree = "Higher Degree in Music"
+location = "A Coruña"
+date = "2015 - 2020"
+description = ""
+tags = ["Teamwork", "Discipline", "Attention to Detail", "Problem Solving"]
+
+[[en.education]]
+institution = "IES Ramón Mª Aller Ulloa"
+logo = "./img/logos/logo_xunta.png"
+degree = "Higher Technician in Web Application Development"
+location = "Lalín, Pontevedra"
+date = "2012 - 2014"
+description = ""
+tags = ["JavaScript", "PHP", "HTML", "CSS", "Symfony", "CodeIgniter", "jQuery", "MySQL", "Java"]
+
+[[en.languages]]
+language = "Galician"
+level = "Native"
+
+[[en.languages]]
+language = "Spanish"
+level = "Native"
+
+[[en.languages]]
+language = "English"
+level = "B2 - Daily technical reading. Professional written and spoken communication"
+
+[gl]
+[gl.labels]
+location = "Ubicación"
+phone = "Teléfono"
+email = "Email"
+education = "Educación"
+experience = "Experiencia"
+projects = "Proxectos"
+languages = "Idiomas"
+present = "Actualidade"
+
+[gl.personal_info]
+position = "Desenvolvedor Frontend"
+summary = "Desenvolvedor Frontend con máis de 4 anos de experiencia en React, TypeScript e JavaScript. Especializado en construír módulos de negocio en produción, librarías de compoñentes e sistemas de testing (Vitest, React Testing Library). Experiencia tanto como único frontend en proxectos de investigación como en equipos de +7 desenvolvedores con Scrum e code review."
+
+[[gl.experience]]
+company = "EMAIS Grupo"
+logo = "./img/logos/logo-emais.png"
+position = "Desenvolvedor Frontend"
+location = "Remoto"
+date = "Xullo 2023 - Actualidade"
+description = "Desenvolvemento de módulos frontend en React e TypeScript dentro dun equipo de +7 desenvolvedores nunha empresa de solucións de xestión empresarial, con Scrum, code review obrigatorio e xestión en Jira."
+tags = [
+    "React",
+    "TypeScript",
+    "JavaScript",
+    "Styled-Components",
+    "Storybook",
+    "Jest",
+    "Vitest",
+    "React Testing Library",
+    "Redux",
+    "Zustand",
+    "Node.js",
+    "Git",
+    "Jira",
+]
+tasks = [
+    "Deseñei e implementei módulos de negocio en React con TypeScript, Styled-Components e formularios dinámicos (RJSF/JSONSchema), entregando múltiples módulos en produción.",
+    "Desenvolvín unha libraría de compoñentes UI reutilizables documentada en Storybook e redactei documentación técnica interna, mellorando a consistencia visual e reducindo o tempo de desenvolvemento de novas vistas.",
+    "Executei a migración do framework de testing de Jest a Vitest, escribindo tests unitarios e de integración con React Testing Library.",
+    "Participei no refactor progresivo de módulos legacy AngularJS a React con Zustand, mellorando os tempos de carga e a mantibilidade do código.",
+]
+
+[[gl.experience]]
+company = "CiTIUS (Universidade de Santiago de Compostela)"
+logo = "./img/logos/logo_citius.png"
+position = "Desenvolvedor Frontend"
+location = "Santiago de Compostela"
+date = "Abril 2022 - Abril 2023"
+description = "Desenvolvemento desde cero da interface web do proxecto LexGal no Centro de Investigación en Tecnoloxías Intelixentes (CiTIUS/USC) como único frontend developer: definición da arquitectura de compoñentes React, fluxos de usuario e ferramenta de importación, edición, versionado e consolidación de normativa autonómica en formato XML."
+tags = ["React", "Redux", "JavaScript", "TailwindCSS", "REST APIs", "SpringBoot", "MongoDB"]
+tasks = [
+    "Deseñei e implementei o sistema de control de versións e seguimento de cambios sobre documentos XML normativos, con diff visual entre versións, historial navegable e auditoría de modificacións por usuario.",
+    "Implementei edición colaborativa en tempo real mediante WebSockets (STOMP/SockJS), permitindo que múltiples usuarios editasen simultaneamente documentos XML normativos.",
+    "Integrei o frontend cunha API REST SpringBoot e MongoDB, deseñando os fluxos de importación e xestión documental.",
+]
+
+[[gl.experience]]
+company = "SDWEB"
+logo = "./img/logos/sdweb_logo.png"
+position = "Desenvolvedor Full-Stack"
+location = "Santiago de Compostela"
+date = "2014 - 2015"
+description = "Desenvolvemento Full-Stack en contornos LMS e CMS, con creación de aplicacións móbiles híbridas."
+tags = ["PHP", "JavaScript", "MySQL", "HTML", "CSS", "API SCORM", "Moodle"]
+
+[[gl.education]]
+institution = "IES San Clemente"
+logo = "./img/logos/logo_xunta.png"
+degree = "Curso de especialización en Videoxogos e Realidade Virtual"
+location = "Santiago de Compostela"
+date = "2024 - 2025"
+description = ""
+tags = ["Unity", "C#", "Blender"]
+
+[[gl.education]]
+institution = "Conservatorio Superior de Música da Coruña"
+logo = "./img/logos/logo_csm.png"
+degree = "Grao en Ensinanzas Artísticas Superiores de Música"
+location = "A Coruña"
+date = "2015 - 2020"
+description = ""
+tags = ["Traballo en Equipo", "Disciplina", "Atención ao Detalle", "Resolución de Problemas"]
+
+[[gl.education]]
+institution = "IES Ramón Mª Aller Ulloa"
+logo = "./img/logos/logo_xunta.png"
+degree = "Técnico Superior en Desenvolvemento de Aplicacións WEB (FP.II)"
+location = "Lalín, Pontevedra"
+date = "2012 - 2014"
+description = ""
+tags = ["JavaScript", "PHP", "HTML", "CSS", "Symfony", "CodeIgniter", "jQuery", "MySQL", "Java"]
+
+[[gl.languages]]
+language = "Galego"
+level = "Materna"
+
+[[gl.languages]]
+language = "Castelán"
+level = "Nativo"
+
+[[gl.languages]]
+language = "Inglés"
+level = "B2 - Lectura técnica diaria. Comunicación profesional escrita e oral"

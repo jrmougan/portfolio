@@ -1,0 +1,124 @@
+---
+export interface Props {
+  item: any;
+}
+
+const { item } = Astro.props;
+---
+
+<div class="education-card terminal-panel animate-on-load delay-3">
+  <div class="terminal-panel-header">
+    <span class="terminal-panel-title">{item.institution}</span>
+    <span class="header-date">{item.date}</span>
+  </div>
+
+  <div class="terminal-panel-body">
+    <div class="header">
+      <div class="inst-info">
+        {item.logo && (
+          <div class="logo-wrapper">
+            <img src={item.logo} alt={item.institution} class="institution-logo" onerror="this.style.display='none'" />
+          </div>
+        )}
+        <div>
+          <h3 class="degree">{item.degree}</h3>
+          <div class="location">
+            <span class="muted">@</span> {item.location}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {item.description && item.description.length > 0 && (
+      <p class="description">{item.description}</p>
+    )}
+
+    {item.tags && item.tags.length > 0 && (
+      <div class="tags">
+        {item.tags.map((tag: string) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    )}
+  </div>
+</div>
+
+<style>
+  .education-card {
+    margin-bottom: 1.5rem;
+  }
+
+  .header-date {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-yellow);
+  }
+
+  .header {
+    margin-bottom: 0.75rem;
+  }
+
+  .inst-info {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .logo-wrapper {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+  }
+
+  .institution-logo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .degree {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    color: var(--color-purple);
+    margin-bottom: 0.15rem;
+  }
+
+  .location {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .muted {
+    color: var(--color-pink);
+  }
+
+  .description {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--color-border);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  @media (max-width: 600px) {
+    .header-date {
+      display: none;
+    }
+  }
+</style>

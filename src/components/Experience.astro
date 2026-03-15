@@ -1,0 +1,160 @@
+---
+export interface Props {
+  item: any;
+  labels: any;
+  colors: any;
+}
+
+const { item, labels, colors } = Astro.props;
+---
+
+<div class="experience-card terminal-panel animate-on-load delay-2">
+  <div class="terminal-panel-header">
+    <span class="terminal-panel-title">{item.company}</span>
+    <span class="header-date">{item.date}</span>
+  </div>
+
+  <div class="terminal-panel-body">
+    <div class="header">
+      <div class="company-info">
+        {item.logo && (
+          <div class="logo-wrapper">
+            <img src={item.logo} alt={item.company} class="company-logo" onerror="this.style.display='none'" />
+          </div>
+        )}
+        <div>
+          <h3 class="position">{item.position}</h3>
+          <div class="location">
+            <span class="muted">@</span> {item.location}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="description">{item.description}</p>
+
+    {item.tasks && item.tasks.length > 0 && (
+      <ul class="tasks">
+        {item.tasks.map((task: string) => (
+          <li>
+            <span class="task-prompt">&gt;</span>
+            <span class="task-text">{task}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    {item.tags && item.tags.length > 0 && (
+      <div class="tags">
+        {item.tags.map((tag: string) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    )}
+  </div>
+</div>
+
+<style>
+  .experience-card {
+    margin-bottom: 1.5rem;
+  }
+
+  .header-date {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-yellow);
+  }
+
+  .header {
+    margin-bottom: 1rem;
+  }
+
+  .company-info {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .logo-wrapper {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    flex-shrink: 0;
+  }
+
+  .company-logo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .position {
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+    color: var(--color-cyan);
+    margin-bottom: 0.15rem;
+  }
+
+  .location {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .muted {
+    color: var(--color-purple);
+  }
+
+  .description {
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.7;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--color-border);
+  }
+
+  .tasks {
+    list-style: none;
+    margin-bottom: 1rem;
+    padding: 0;
+  }
+
+  .tasks li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .task-prompt {
+    color: var(--color-accent-prompt);
+    font-family: var(--font-pixel);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  @media (max-width: 600px) {
+    .header-date {
+      display: none;
+    }
+  }
+</style>

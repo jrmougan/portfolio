@@ -1,0 +1,53 @@
+---
+import { getEntry } from 'astro:content';
+import { SUPPORTED_LANGUAGES } from '../../utils/data';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import Education from '../../components/Education.astro';
+
+export function getStaticPaths() {
+  return SUPPORTED_LANGUAGES.map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params;
+const langData = await getEntry('cvLang', lang);
+const labels = langData.data.labels;
+---
+
+<Layout title={`${labels.education} | JRM`} lang={lang}>
+  <Navbar lang={lang} activePage="education" basePath="education" />
+
+  <main class="container page-content">
+    <SectionHeader title={labels.education} />
+
+    <div class="timeline">
+      {langData.data.education.map((edu) => (
+        <Education item={edu} />
+      ))}
+    </div>
+  </main>
+
+  <Footer text={`cat education.log | wc -l = ${langData.data.education.length}`} />
+</Layout>
+
+<style>
+  .page-content {
+    padding-top: 88px;
+    padding-bottom: 3rem;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 600px) {
+    .page-content {
+      padding-top: 76px;
+    }
+  }
+</style>

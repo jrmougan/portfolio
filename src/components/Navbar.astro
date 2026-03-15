@@ -1,0 +1,150 @@
+---
+import { SUPPORTED_LANGUAGES } from '../utils/data';
+
+export interface Props {
+  lang: string;
+  activePage?: string;
+  basePath?: string;
+}
+
+const { lang, activePage = 'home', basePath } = Astro.props;
+
+const navLabels: Record<string, Record<string, string>> = {
+  es: { home: 'Inicio', experience: 'Experiencia', education: 'Educación', skills: 'Skills', projects: 'Proyectos', blog: 'Blog' },
+  en: { home: 'Home', experience: 'Experience', education: 'Education', skills: 'Skills', projects: 'Projects', blog: 'Blog' },
+  gl: { home: 'Inicio', experience: 'Experiencia', education: 'Educación', skills: 'Skills', projects: 'Proxectos', blog: 'Blog' },
+};
+
+const nav = navLabels[lang] || navLabels.es;
+
+const links = [
+  { key: 'home', href: `/${lang}` },
+  { key: 'experience', href: `/${lang}/experience` },
+  { key: 'education', href: `/${lang}/education` },
+  { key: 'skills', href: `/${lang}/skills` },
+  { key: 'projects', href: `/${lang}/projects` },
+  { key: 'blog', href: `/${lang}/blog` },
+];
+
+// For lang-switcher: preserve the current page path when switching lang
+const currentPath = basePath || '';
+---
+
+<nav class="navbar">
+  <div class="nav-content container">
+    <a href={`/${lang}`} class="logo">
+      <span class="logo-prompt">&gt;</span>
+      <span class="logo-text">JRM</span>
+      <span class="cursor-blink"></span>
+    </a>
+
+    <div class="nav-links">
+      {links.map((link) => (
+        <a href={link.href} class={`nav-link ${activePage === link.key ? 'active' : ''}`}>
+          {nav[link.key]}
+        </a>
+      ))}
+    </div>
+
+    <div class="lang-switcher">
+      {SUPPORTED_LANGUAGES.map((l) => (
+        <a
+          href={currentPath ? `/${l}/${currentPath}` : `/${l}`}
+          class={`lang-btn ${l === lang ? 'active' : ''}`}
+        >
+          {l.toUpperCase()}
+        </a>
+      ))}
+    </div>
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg-surface);
+  }
+
+  .nav-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 56px;
+    gap: 1rem;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    text-decoration: none;
+    color: var(--color-text-primary);
+  }
+
+  .logo:hover { color: var(--color-text-primary); }
+  .logo-prompt { color: var(--color-accent-prompt); }
+  .logo-text { color: var(--color-green); }
+
+  .nav-links {
+    display: flex;
+    gap: 0.25rem;
+  }
+
+  .nav-link {
+    padding: 6px 12px;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+  }
+
+  .nav-link:hover {
+    color: var(--color-text-primary);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-link.active { color: var(--color-cyan); }
+
+  .lang-switcher {
+    display: flex;
+    gap: 2px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+  }
+
+  .lang-btn {
+    padding: 4px 10px;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    background: transparent;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+  }
+
+  .lang-btn:hover {
+    color: var(--color-text-primary);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .lang-btn.active {
+    background: var(--color-border);
+    color: var(--color-green);
+  }
+
+  @media (max-width: 768px) {
+    .nav-links {
+      display: none;
+    }
+  }
+</style>

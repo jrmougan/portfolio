@@ -1,0 +1,53 @@
+---
+import { getEntry } from 'astro:content';
+import { SUPPORTED_LANGUAGES } from '../../utils/data';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import Experience from '../../components/Experience.astro';
+
+export function getStaticPaths() {
+  return SUPPORTED_LANGUAGES.map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params;
+const langData = await getEntry('cvLang', lang);
+const labels = langData.data.labels;
+---
+
+<Layout title={`${labels.experience} | JRM`} lang={lang}>
+  <Navbar lang={lang} activePage="experience" basePath="experience" />
+
+  <main class="container page-content">
+    <SectionHeader title={labels.experience} />
+
+    <div class="timeline">
+      {langData.data.experience.map((exp) => (
+        <Experience item={exp} labels={labels} colors={{}} />
+      ))}
+    </div>
+  </main>
+
+  <Footer text={`cat experience.log | wc -l = ${langData.data.experience.length}`} />
+</Layout>
+
+<style>
+  .page-content {
+    padding-top: 88px;
+    padding-bottom: 3rem;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+  }
+
+  @media (max-width: 600px) {
+    .page-content {
+      padding-top: 76px;
+    }
+  }
+</style>

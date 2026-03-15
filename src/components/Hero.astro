@@ -1,0 +1,231 @@
+---
+export interface Props {
+  personal: any;
+  info: any;
+  labels: any;
+}
+
+const { personal, info, labels } = Astro.props;
+---
+
+<header class="hero terminal-panel animate-on-load delay-1">
+  <div class="terminal-panel-header">
+    <span class="terminal-panel-title">~/whoami</span>
+  </div>
+
+  <div class="terminal-panel-body">
+    <div class="hero-layout">
+      <div class="hero-content">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          Open to Work
+        </div>
+
+        <h1 class="name">
+          <span class="prompt-symbol">&gt;</span> {personal.name}
+        </h1>
+
+        <h2 class="role">
+          <span class="muted">position:</span> {info.position}
+        </h2>
+
+        <p class="summary">{info.summary}</p>
+
+        <div class="actions">
+          <a href={`mailto:${personal.email}`} class="btn btn-primary">
+            <span class="btn-prefix">$</span> contact --email
+          </a>
+          <a href={`https://${personal.link}`} target="_blank" rel="noreferrer" class="btn btn-secondary">
+            <span class="btn-prefix">$</span> open --linkedin
+          </a>
+        </div>
+
+        <div class="contact-info">
+          <span class="muted">location:</span>
+          <span>{personal.address}</span>
+        </div>
+      </div>
+
+      <div class="photo-wrapper">
+        <img src={personal.photo} alt={personal.name} class="profile-photo" />
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  .hero-layout {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2.5rem;
+  }
+
+  .hero-content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 4px 12px;
+    border: 1px solid var(--color-green);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-green);
+    margin-bottom: 1.25rem;
+  }
+
+  .badge-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-green);
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  .name {
+    font-size: 2.25rem;
+    color: var(--color-green);
+    margin-bottom: 0.5rem;
+  }
+
+  .prompt-symbol {
+    color: var(--color-accent-prompt);
+  }
+
+  .role {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    color: var(--color-text-secondary);
+    font-weight: 400;
+    margin-bottom: 1.25rem;
+  }
+
+  .muted {
+    color: var(--color-text-muted);
+  }
+
+  .summary {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+    border-left: 2px solid var(--color-border);
+    padding-left: 1rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn {
+    padding: 8px 16px;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    transition: all var(--transition-fast);
+    border: 1px solid var(--color-border);
+  }
+
+  .btn-prefix {
+    color: var(--color-accent-prompt);
+    font-weight: 700;
+  }
+
+  .btn-primary {
+    background: transparent;
+    color: var(--color-cyan);
+    border-color: var(--color-cyan);
+  }
+
+  .btn-primary:hover {
+    background: rgba(139, 233, 253, 0.1);
+    color: var(--color-cyan);
+    box-shadow: var(--shadow-glow-cyan);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--color-purple);
+    border-color: var(--color-purple);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(189, 147, 249, 0.1);
+    color: var(--color-purple);
+    box-shadow: var(--shadow-glow-purple);
+  }
+
+  .contact-info {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-secondary);
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .photo-wrapper {
+    width: 200px;
+    height: 200px;
+    flex-shrink: 0;
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .profile-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.8) contrast(1.05);
+    transition: filter var(--transition-normal);
+  }
+
+  .profile-photo:hover {
+    filter: saturate(1) contrast(1);
+  }
+
+  @media (max-width: 768px) {
+    .hero-layout {
+      flex-direction: column-reverse;
+      align-items: center;
+      text-align: center;
+    }
+
+    .photo-wrapper {
+      width: 160px;
+      height: 160px;
+    }
+
+    .name {
+      font-size: 1.75rem;
+    }
+
+    .actions {
+      justify-content: center;
+    }
+
+    .contact-info {
+      justify-content: center;
+    }
+
+    .summary {
+      border-left: none;
+      padding-left: 0;
+      border-top: 2px solid var(--color-border);
+      padding-top: 1rem;
+    }
+  }
+</style>

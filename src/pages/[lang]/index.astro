@@ -1,0 +1,162 @@
+---
+import { getEntry } from 'astro:content';
+import { SUPPORTED_LANGUAGES } from '../../utils/data';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import Hero from '../../components/Hero.astro';
+
+export function getStaticPaths() {
+  return SUPPORTED_LANGUAGES.map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params;
+const shared = await getEntry('cvShared', 'shared');
+const langData = await getEntry('cvLang', lang);
+
+const labels = langData.data.labels;
+
+const menuLabels: Record<string, Record<string, string>> = {
+  es: {
+    experience: 'Experiencia profesional',
+    education: 'Formación académica',
+    skills: 'Skills & Idiomas',
+    projects: 'Proyectos personales',
+    blog: 'Blog',
+    expDesc: 'Trayectoria profesional en desarrollo frontend',
+    eduDesc: 'Formación reglada y especialización',
+    skillsDesc: 'Stack técnico y competencias lingüísticas',
+    projDesc: 'Side-projects y colaboraciones',
+    blogDesc: 'Artículos sobre desarrollo y tecnología',
+  },
+  en: {
+    experience: 'Professional experience',
+    education: 'Education',
+    skills: 'Skills & Languages',
+    projects: 'Personal projects',
+    blog: 'Blog',
+    expDesc: 'Professional career in frontend development',
+    eduDesc: 'Formal education and specialization',
+    skillsDesc: 'Tech stack and language proficiency',
+    projDesc: 'Side-projects and collaborations',
+    blogDesc: 'Articles about development and technology',
+  },
+  gl: {
+    experience: 'Experiencia profesional',
+    education: 'Formación académica',
+    skills: 'Skills & Idiomas',
+    projects: 'Proxectos persoais',
+    blog: 'Blog',
+    expDesc: 'Traxectoria profesional en desenvolvemento frontend',
+    eduDesc: 'Formación regrada e especialización',
+    skillsDesc: 'Stack técnico e competencias lingüísticas',
+    projDesc: 'Side-projects e colaboracións',
+    blogDesc: 'Artigos sobre desenvolvemento e tecnoloxía',
+  },
+};
+
+const menu = menuLabels[lang as string] || menuLabels.es;
+
+const sections = [
+  { key: 'experience', label: menu.experience, desc: menu.expDesc, href: `/${lang}/experience`, color: '--color-cyan' },
+  { key: 'education', label: menu.education, desc: menu.eduDesc, href: `/${lang}/education`, color: '--color-purple' },
+  { key: 'skills', label: menu.skills, desc: menu.skillsDesc, href: `/${lang}/skills`, color: '--color-pink' },
+  { key: 'projects', label: menu.projects, desc: menu.projDesc, href: `/${lang}/projects`, color: '--color-yellow' },
+  { key: 'blog', label: menu.blog, desc: menu.blogDesc, href: `/${lang}/blog`, color: '--color-orange' },
+];
+---
+
+<Layout title={`${shared.data.personal_info.name} - ${langData.data.personal_info.position}`} lang={lang}>
+  <Navbar lang={lang} activePage="home" />
+
+  <main class="container page-content">
+    <Hero
+      personal={shared.data.personal_info}
+      info={langData.data.personal_info}
+      labels={labels}
+    />
+
+    <section class="nav-menu">
+      <div class="menu-grid">
+        {sections.map((s, i) => (
+          <a href={s.href} class={`menu-item terminal-panel animate-on-load delay-${i + 1}`}>
+            <div class="terminal-panel-header">
+              <span class="terminal-panel-title" style={`color: var(${s.color})`}>~/{s.key}</span>
+              <span class="menu-arrow">-&gt;</span>
+            </div>
+            <div class="terminal-panel-body">
+              <h3 class="menu-label" style={`color: var(${s.color})`}>{s.label}</h3>
+              <p class="menu-desc">{s.desc}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+  </main>
+
+  <Footer text={`© ${new Date().getFullYear()} ${shared.data.personal_info.name} | Built with Astro & Geist Pixel`} />
+</Layout>
+
+<style>
+  .page-content {
+    padding-top: 88px;
+    padding-bottom: 3rem;
+  }
+
+  .nav-menu {
+    margin-top: 3rem;
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+
+  .menu-item {
+    text-decoration: none;
+    display: block;
+    transition: border-color var(--transition-fast), transform var(--transition-fast);
+  }
+
+  .menu-item:hover {
+    border-color: var(--color-border-focus);
+    transform: translateY(-2px);
+  }
+
+  .menu-arrow {
+    margin-left: auto;
+    color: var(--color-accent-prompt);
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    transition: transform var(--transition-fast);
+  }
+
+  .menu-item:hover .menu-arrow {
+    transform: translateX(4px);
+  }
+
+  .menu-label {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .menu-desc {
+    font-size: 0.825rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 600px) {
+    .menu-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .page-content {
+      padding-top: 76px;
+    }
+  }
+</style>

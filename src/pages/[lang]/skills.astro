@@ -1,0 +1,54 @@
+---
+import { getEntry } from 'astro:content';
+import { SUPPORTED_LANGUAGES } from '../../utils/data';
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import Skills from '../../components/Skills.astro';
+import Languages from '../../components/Languages.astro';
+
+export function getStaticPaths() {
+  return SUPPORTED_LANGUAGES.map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params;
+const shared = await getEntry('cvShared', 'shared');
+const langData = await getEntry('cvLang', lang);
+const labels = langData.data.labels;
+---
+
+<Layout title={`Skills & ${labels.languages} | JRM`} lang={lang}>
+  <Navbar lang={lang} activePage="skills" basePath="skills" />
+
+  <main class="container page-content">
+    <SectionHeader title="Skills" />
+    <Skills skills={shared.data.skills} />
+
+    <div class="section-spacer"></div>
+
+    <SectionHeader title={labels.languages} />
+    <Languages items={langData.data.languages} />
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  .page-content {
+    padding-top: 88px;
+    padding-bottom: 3rem;
+  }
+
+  .section-spacer {
+    margin: 3rem 0;
+  }
+
+  @media (max-width: 600px) {
+    .page-content {
+      padding-top: 76px;
+    }
+  }
+</style>

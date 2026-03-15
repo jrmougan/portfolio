@@ -1,0 +1,40 @@
+---
+export interface Props {
+  skills: any;
+  colors?: any;
+}
+
+const { skills } = Astro.props;
+
+// Map categories to Dracula colors
+const catColors: Record<string, string> = {
+  frontend: 'tag--frontend',
+  backend: 'tag--backend',
+  tools: 'tag--tools',
+  gamedev: 'tag--gamedev',
+};
+---
+
+<div class="skills-section terminal-panel animate-on-load delay-4">
+  <div class="terminal-panel-header">
+    <span class="terminal-panel-title">~/skills --list</span>
+  </div>
+
+  <div class="terminal-panel-body">
+    <div class="skills-grid">
+      {skills[0].items.map((skill: any) => (
+        <span class={`tag ${catColors[skill.cat] || ''}`}>
+          {skill.name}
+        </span>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .skills-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+</style>

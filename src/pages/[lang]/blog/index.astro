@@ -1,0 +1,178 @@
+---
+import { getCollection } from 'astro:content';
+import { SUPPORTED_LANGUAGES } from '../../../utils/data';
+import Layout from '../../../layouts/Layout.astro';
+import Navbar from '../../../components/Navbar.astro';
+import Footer from '../../../components/Footer.astro';
+import SectionHeader from '../../../components/SectionHeader.astro';
+
+export function getStaticPaths() {
+  return SUPPORTED_LANGUAGES.map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params;
+
+const allPosts = await getCollection('blog', (entry) => {
+  return entry.data.lang === lang && !entry.data.draft;
+});
+
+const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const pageLabels: Record<string, Record<string, string>> = {
+  es: { title: 'Blog', empty: 'No hay posts todavía.', readMore: 'Leer' },
+  en: { title: 'Blog', empty: 'No posts yet.', readMore: 'Read' },
+  gl: { title: 'Blog', empty: 'Non hai posts aínda.', readMore: 'Ler' },
+};
+
+const labels = pageLabels[lang as string] || pageLabels.es;
+
+function getPostSlug(id: string): string {
+  const parts = id.split('/');
+  const filename = parts[parts.length - 1];
+  return filename.replace(/\.(mdx?|md)$/, '');
+}
+---
+
+<Layout title={`Blog | JRM`} description="Blog personal" lang={lang}>
+  <Navbar lang={lang} activePage="blog" basePath="blog" />
+
+  <main class="container page-content">
+    <SectionHeader title={labels.title} />
+
+    {posts.length === 0 ? (
+      <div class="empty-state terminal-panel">
+        <div class="terminal-panel-header">
+          <span class="terminal-panel-title">~/blog</span>
+        </div>
+        <div class="terminal-panel-body">
+          <p class="empty-text">{labels.empty}</p>
+        </div>
+      </div>
+    ) : (
+      <div class="posts-list">
+        {posts.map((post) => {
+          const slug = getPostSlug(post.id);
+          const formattedDate = post.data.date.toLocaleDateString(lang, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          });
+
+          return (
+            <a href={`/${lang}/blog/${slug}`} class="post-card terminal-panel animate-on-load">
+              <div class="terminal-panel-header">
+                <span class="terminal-panel-title">{slug}.mdx</span>
+                <span class="post-date">{formattedDate}</span>
+              </div>
+              <div class="terminal-panel-body">
+                <h2 class="post-title">{post.data.title}</h2>
+                <p class="post-description">{post.data.description}</p>
+                <div class="post-footer">
+                  <div class="post-tags">
+                    {post.data.tags.map((tag: string) => (
+                      <span class="tag">{tag}</span>
+                    ))}
+                  </div>
+                  <span class="read-more">
+                    {labels.readMore} <span class="arrow">-&gt;</span>
+                  </span>
+                </div>
+              </div>
+            </a>
+          );
+        })}
+      </div>
+    )}
+  </main>
+
+  <Footer text={`ls blog/ | wc -l = ${posts.length}`} />
+</Layout>
+
+<style>
+  .page-content {
+    padding-top: 88px;
+    padding-bottom: 3rem;
+  }
+
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .post-card {
+    text-decoration: none;
+    display: block;
+    transition: border-color var(--transition-fast);
+  }
+
+  .post-card:hover {
+    border-color: var(--color-border-focus);
+  }
+
+  .post-date {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-yellow);
+  }
+
+  .post-title {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--color-green);
+    margin-bottom: 0.5rem;
+  }
+
+  .post-card:hover .post-title { color: var(--color-cyan); }
+
+  .post-description {
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin-bottom: 0.75rem;
+  }
+
+  .post-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .read-more {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .post-card:hover .read-more { color: var(--color-cyan); }
+  .arrow { color: var(--color-accent-prompt); }
+
+  .empty-text {
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 600px) {
+    .page-content {
+      padding-top: 76px;
+    }
+
+    .post-footer {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

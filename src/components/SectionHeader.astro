@@ -1,0 +1,47 @@
+---
+export interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<div class="section-header">
+  <span class="section-prompt">&gt;_</span>
+  <h2 class="section-title">{title}</h2>
+  <div class="section-line"></div>
+</div>
+
+<style>
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-prompt {
+    font-family: var(--font-pixel);
+    font-size: 1.25rem;
+    color: var(--color-accent-prompt);
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+  }
+
+  .section-line {
+    height: 1px;
+    flex-grow: 1;
+    background: var(--color-border);
+  }
+
+  @media (max-width: 600px) {
+    .section-title {
+      font-size: 1.35rem;
+    }
+  }
+</style>
