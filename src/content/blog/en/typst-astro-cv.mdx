@@ -1,0 +1,164 @@
+---
+title: "CV as code: Typst + Astro as a single source of truth"
+description: "How I keep my PDF resume and portfolio website automatically in sync using a single TOML file, Typst, and Astro."
+date: 2026-03-15
+tags: ["typst", "astro", "portfolio", "tooling"]
+lang: en
+---
+
+Keeping a CV up to date is tedious. You update the PDF, then remember you need to reflect the changes on the portfolio website too, and at some point both are out of sync and you're not sure which one is correct.
+
+My solution: **a single TOML file as source of truth** that feeds both the PDF (via Typst) and this portfolio (via Astro) simultaneously.
+
+## The architecture
+
+```
+cv_data.toml
+    │
+    ├──→ Typst compiler ──→ cv_es.pdf / cv_en.pdf
+    │
+    └──→ Astro content loader
+              (fetch at build time)
+                    │
+                    └──→ /en/experience, /en/education, /en/skills...
+```
+
+Two independent repositories:
+
+- [`jrmougan/cv`](https://github.com/jrmougan/cv) — the TOML + Typst templates
+- [`jrmougan/portfolio`](https://github.com/jrmougan/portfolio) — this Astro site
+
+The portfolio has no local copy of the content. On every build, it downloads it directly from GitHub.
+
+## The TOML file
+
+`cv_data.toml` has two parts: shared data (name, photo, contact) and per-language blocks (experience, education, skills, etc.):
+
+```toml
+[shared.personal_info]
+name = "Jerónimo Mougan"
+photo = "img/profile-photo.jpeg"
+
+[shared.personal_info.contact]
+email = "hello@example.com"
+link = "linkedin.com/in/jrmougan"
+
+[[es.experience]]
+company = "Company S.L."
+position = "Frontend Developer"
+date = "2023 — Present"
+description = "..."
+tasks = ["Task 1", "Task 2"]
+
+[[en.experience]]
+company = "Company S.L."
+position = "Frontend Developer"
+date = "2023 — Present"
+description = "..."
+tasks = ["Task 1", "Task 2"]
+```
+
+Adding a new language is as simple as adding a new `[gl]` block — the Typst templates and Astro loader are both language-agnostic.
+
+## The Astro content loader
+
+Astro allows defining content collections with custom loaders. In `src/content.config.ts`, the loader fetches the TOML from GitHub at build time, parses it, and stores it in the content store:
+
+```typescript
+import toml from 'toml';
+
+const CV_TOML_URL =
+  'https://raw.githubusercontent.com/jrmougan/cv/main/cv_data.toml';
+
+const cvLang = defineCollection({
+  loader: {
+    name: 'cv-lang-loader',
+    async load({ store }) {
+      const res = await fetch(CV_TOML_URL);
+      const data = toml.parse(await res.text());
+
+      for (const lang of ['es', 'en', 'gl']) {
+        store.set({
+          id: lang,
+          data: {
+            labels: data[lang].labels,
+            experience: data[lang].experience,
+            education: data[lang].education,
+            // ...
+          },
+        });
+      }
+    },
+  },
+  schema: z.object({ /* ... */ }),
+});
+```
+
+Then, in any Astro page:
+
+```astro
+---
+const entry = await getEntry('cvLang', lang);
+const { experience } = entry.data;
+---
+
+{experience.map(item => <ExperienceCard {item} />)}
+```
+
+The build is completely static. There are no GitHub calls at runtime — everything is resolved at compile time.
+
+## Automatic redeploy
+
+When I update the TOML, the portfolio needs to rebuild. Since Cloudflare Pages only watches commits on the portfolio repo, I added a GitHub Actions workflow in the CV repo that triggers the Cloudflare deploy hook on push:
+
+```yaml
+# jrmougan/cv: .github/workflows/trigger-portfolio.yml
+name: Trigger portfolio rebuild
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'cv_data.toml'
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Pages deploy
+        run: curl -X POST "${{ secrets.PORTFOLIO_DEPLOY_HOOK }}"
+```
+
+The `paths: cv_data.toml` filter prevents unnecessary redeploys when only the Typst templates or fonts change.
+
+The full flow looks like this:
+
+```
+edit cv_data.toml
+    │
+    └──→ git push → GitHub Actions → curl deploy hook
+                                          │
+                                          └──→ Cloudflare Pages rebuild
+                                                    │
+                                                    └──→ updated portfolio ~1min
+```
+
+## Why Typst
+
+I could have used LaTeX. But Typst has a much cleaner syntax, compiles in milliseconds, and allows separating data from templates naturally. No packages to install manually, no auxiliary files to clean up.
+
+```typst
+// Typst: concise and readable
+#let entity = (item, metadata) => [
+  #text(weight: "bold")[#item.company]
+  #text(style: "italic")[#item.position]
+]
+```
+
+And since everything is plain text — TOML and `.typ` files — the CV lives in Git like any other code project. Change history, branches, diffs.
+
+## Result
+
+Updating the CV is now a `git push`. The PDF and portfolio sync themselves.
+
+The code is at [`jrmougan/cv`](https://github.com/jrmougan/cv) and [`jrmougan/portfolio`](https://github.com/jrmougan/portfolio).
