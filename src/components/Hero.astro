@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+
 export interface Props {
   personal: any;
   info: any;
@@ -34,14 +36,17 @@ const photoSrc = personal.photo?.startsWith('./') ? personal.photo.replace('./',
 
         <div class="actions">
           <a href={`mailto:${personal.contact.email}`} class="btn btn-primary">
-            <span class="btn-prefix">$</span> contact --email
+            <Icon name="mail" size={14} />
+            contact --email
           </a>
           <a href={`https://${personal.contact.link}`} target="_blank" rel="noreferrer" class="btn btn-secondary">
-            <span class="btn-prefix">$</span> open --linkedin
+            <Icon name="user" size={14} />
+            open --linkedin
           </a>
         </div>
 
         <div class="contact-info">
+          <Icon name="map-pin" size={14} class="icon-muted" />
           <span class="muted">location:</span>
           <span>{personal.contact.address}</span>
         </div>
@@ -135,7 +140,7 @@ const photoSrc = personal.photo?.startsWith('./') ? personal.photo.replace('./',
     font-weight: 500;
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: 0.4rem;
     transition: all var(--transition-fast);
     border: 1px solid var(--color-border);
   }
@@ -144,6 +149,12 @@ const photoSrc = personal.photo?.startsWith('./') ? personal.photo.replace('./',
     color: var(--color-accent-prompt);
     font-weight: 700;
   }
+
+  .btn-primary { color: var(--color-cyan); }
+  .btn-primary .icon { color: var(--color-cyan); }
+
+  .btn-secondary { color: var(--color-purple); }
+  .btn-secondary .icon { color: var(--color-purple); }
 
   .btn-primary {
     background: transparent;
@@ -174,7 +185,12 @@ const photoSrc = personal.photo?.startsWith('./') ? personal.photo.replace('./',
     font-size: 0.85rem;
     color: var(--color-text-secondary);
     display: flex;
+    align-items: center;
     gap: 0.5rem;
+  }
+
+  .icon-muted {
+    color: var(--color-text-muted);
   }
 
   .photo-wrapper {

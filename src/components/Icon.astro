@@ -1,0 +1,46 @@
+---
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+
+export interface Props {
+  name: string;
+  size?: number;
+  class?: string;
+  'aria-label'?: string;
+  'aria-hidden'?: boolean | 'true' | 'false';
+}
+
+const {
+  name,
+  size = 16,
+  class: className = '',
+  'aria-label': ariaLabel,
+  'aria-hidden': ariaHidden,
+} = Astro.props;
+
+const svgPath = resolve('./node_modules/pixelarticons/svg', `${name}.svg`);
+
+let svgContent = '';
+try {
+  const raw = readFileSync(svgPath, 'utf-8');
+  svgContent = raw
+    .replace(/width="\d+"/, `width="${size}"`)
+    .replace(/height="\d+"/, `height="${size}"`);
+} catch {
+  svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 24 24" fill="currentColor"><rect width="24" height="24" fill="none"/></svg>`;
+}
+
+const accessibilityAttrs: Record<string, string> = {};
+if (ariaLabel) {
+  accessibilityAttrs['aria-label'] = ariaLabel;
+  accessibilityAttrs['role'] = 'img';
+} else {
+  accessibilityAttrs['aria-hidden'] = ariaHidden !== undefined ? String(ariaHidden) : 'true';
+}
+---
+
+<span
+  class={`icon ${className}`.trim()}
+  {...accessibilityAttrs}
+  set:html={svgContent}
+/>

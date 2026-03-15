@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+
 export interface Props {
   item: any;
   labels: any;
@@ -24,9 +26,13 @@ const logoSrc = item.logo?.startsWith('./') ? item.logo.replace('./', '/') : ite
           </div>
         )}
         <div>
-          <h3 class="position">{item.position}</h3>
+          <h3 class="position">
+            <Icon name="briefcase" size={14} class="icon-position" />
+            {item.position}
+          </h3>
           <div class="location">
-            <span class="muted">@</span> {item.location}
+            <Icon name="map-pin" size={12} />
+            {item.location}
           </div>
         </div>
       </div>
@@ -101,15 +107,26 @@ const logoSrc = item.logo?.startsWith('./') ? item.logo.replace('./', '/') : ite
     font-size: 1.15rem;
     color: var(--color-cyan);
     margin-bottom: 0.15rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .icon-position {
+    color: var(--color-cyan);
+    flex-shrink: 0;
   }
 
   .location {
     font-family: var(--font-mono);
     font-size: 0.8rem;
     color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
   }
 
-  .muted {
+  .location .icon {
     color: var(--color-purple);
   }
 

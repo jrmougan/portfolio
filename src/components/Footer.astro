@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+
 export interface Props {
   text?: string;
 }
@@ -8,7 +10,7 @@ const { text = 'EOF' } = Astro.props;
 
 <footer class="footer">
   <div class="container footer-content">
-    <span class="footer-prompt">&gt;</span>
+    <Icon name="terminal" size={13} class="footer-icon" />
     <span class="footer-muted">{text}</span>
   </div>
 </footer>
@@ -29,9 +31,8 @@ const { text = 'EOF' } = Astro.props;
     color: var(--color-text-muted);
   }
 
-  .footer-prompt {
+  .footer-icon {
     color: var(--color-accent-prompt);
-    font-family: var(--font-pixel);
   }
 
   .footer-muted {

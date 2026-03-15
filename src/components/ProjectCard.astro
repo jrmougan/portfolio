@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+
 export interface Props {
   title: string;
   description: string;
@@ -36,6 +38,7 @@ const statusColor = statusColors[status] || '--color-text-muted';
 
 <a href={`/${lang}/projects/${slug}`} class="project-card terminal-panel animate-on-load">
   <div class="terminal-panel-header">
+    <Icon name="git-branch" size={12} class="icon-branch" />
     <span class="terminal-panel-title">~/{slug}</span>
     <span class="header-status" style={`color: var(${statusColor})`}>{statusLabel}</span>
   </div>
@@ -58,7 +61,10 @@ const statusColor = statusColors[status] || '--color-text-muted';
         ))}
       </div>
       {url && (
-        <span class="card-url">{url.replace('https://', '')}</span>
+        <span class="card-url">
+          <Icon name="external-link" size={11} />
+          {url.replace('https://', '')}
+        </span>
       )}
     </div>
   </div>
@@ -142,6 +148,13 @@ const statusColor = statusColors[status] || '--color-text-muted';
     color: var(--color-cyan);
     white-space: nowrap;
     flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .icon-branch {
+    color: var(--color-text-muted);
   }
 
   @media (max-width: 600px) {

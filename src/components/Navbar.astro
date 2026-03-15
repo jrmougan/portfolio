@@ -1,5 +1,6 @@
 ---
 import { SUPPORTED_LANGUAGES } from '../utils/data';
+import Icon from './Icon.astro';
 
 export interface Props {
   lang: string;
@@ -18,12 +19,12 @@ const navLabels: Record<string, Record<string, string>> = {
 const nav = navLabels[lang] || navLabels.es;
 
 const links = [
-  { key: 'home', href: `/${lang}` },
-  { key: 'experience', href: `/${lang}/experience` },
-  { key: 'education', href: `/${lang}/education` },
-  { key: 'skills', href: `/${lang}/skills` },
-  { key: 'projects', href: `/${lang}/projects` },
-  { key: 'blog', href: `/${lang}/blog` },
+  { key: 'home',       href: `/${lang}`,            icon: 'home' },
+  { key: 'experience', href: `/${lang}/experience`,  icon: 'briefcase' },
+  { key: 'education',  href: `/${lang}/education`,   icon: 'book-open' },
+  { key: 'skills',     href: `/${lang}/skills`,      icon: 'terminal' },
+  { key: 'projects',   href: `/${lang}/projects`,    icon: 'package' },
+  { key: 'blog',       href: `/${lang}/blog`,        icon: 'pen-square' },
 ];
 
 // For lang-switcher: preserve the current page path when switching lang
@@ -41,12 +42,44 @@ const currentPath = basePath || '';
     <div class="nav-links">
       {links.map((link) => (
         <a href={link.href} class={`nav-link ${activePage === link.key ? 'active' : ''}`}>
+          <Icon name={link.icon} size={13} />
           {nav[link.key]}
         </a>
       ))}
     </div>
 
-    <div class="lang-switcher">
+    <div class="nav-right">
+      <div class="lang-switcher">
+        {SUPPORTED_LANGUAGES.map((l) => (
+          <a
+            href={currentPath ? `/${l}/${currentPath}` : `/${l}`}
+            class={`lang-btn ${l === lang ? 'active' : ''}`}
+          >
+            {l.toUpperCase()}
+          </a>
+        ))}
+      </div>
+
+      <button class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">
+        <span class="hamburger-icon">
+          <span></span>
+          <span></span>
+          <span></span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mobile-menu" aria-hidden="true">
+    <div class="mobile-nav-links">
+      {links.map((link) => (
+        <a href={link.href} class={`mobile-nav-link ${activePage === link.key ? 'active' : ''}`}>
+          <Icon name={link.icon} size={14} />
+          {nav[link.key]}
+        </a>
+      ))}
+    </div>
+    <div class="mobile-lang-switcher">
       {SUPPORTED_LANGUAGES.map((l) => (
         <a
           href={currentPath ? `/${l}/${currentPath}` : `/${l}`}
@@ -104,6 +137,9 @@ const currentPath = basePath || '';
     color: var(--color-text-muted);
     border-radius: var(--radius-sm);
     transition: all var(--transition-fast);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
   }
 
   .nav-link:hover {
@@ -112,6 +148,13 @@ const currentPath = basePath || '';
   }
 
   .nav-link.active { color: var(--color-cyan); }
+
+  /* Right side group: lang-switcher + hamburger */
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 
   .lang-switcher {
     display: flex;
@@ -142,9 +185,195 @@ const currentPath = basePath || '';
     color: var(--color-green);
   }
 
+  /* Hamburger button — hidden on desktop */
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+    background: transparent;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: all var(--transition-fast);
+  }
+
+  .menu-toggle:hover {
+    border-color: var(--color-text-muted);
+    color: var(--color-text-primary);
+  }
+
+  .menu-toggle.open {
+    border-color: var(--color-cyan);
+    color: var(--color-cyan);
+  }
+
+  .hamburger-icon {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 16px;
+  }
+
+  .hamburger-icon span {
+    display: block;
+    height: 1.5px;
+    width: 100%;
+    background: currentColor;
+    border-radius: 1px;
+    transition: all 0.2s ease;
+    transform-origin: center;
+  }
+
+  /* ✕ animation when open */
+  .menu-toggle.open .hamburger-icon span:nth-child(1) {
+    transform: translateY(5.5px) rotate(45deg);
+  }
+  .menu-toggle.open .hamburger-icon span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .menu-toggle.open .hamburger-icon span:nth-child(3) {
+    transform: translateY(-5.5px) rotate(-45deg);
+  }
+
+  /* Mobile drawer — hidden by default */
+  .mobile-menu {
+    display: flex;
+    flex-direction: column;
+    border-top: 0px solid var(--color-border);
+    background: var(--color-bg-surface);
+    overflow: hidden;
+    max-height: 0;
+    visibility: hidden;
+    opacity: 0;
+    transition: 
+      max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+      opacity 0.2s ease-in-out,
+      visibility 0.3s,
+      border-width 0.1s;
+  }
+
+  .mobile-menu.open {
+    max-height: 500px;
+    visibility: visible;
+    opacity: 1;
+    border-top-width: 1px;
+  }
+
+  .mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem 0;
+  }
+
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.75rem 1.25rem;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: all var(--transition-fast);
+  }
+
+  .mobile-nav-link:hover {
+    color: var(--color-text-primary);
+    background: rgba(255, 255, 255, 0.04);
+    border-left-color: var(--color-border);
+  }
+
+  .mobile-nav-link.active {
+    color: var(--color-cyan);
+    border-left-color: var(--color-cyan);
+    background: rgba(139, 233, 253, 0.05);
+  }
+
+  .mobile-lang-switcher {
+    display: flex;
+    gap: 2px;
+    padding: 0.75rem 1.25rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .mobile-lang-switcher .lang-btn {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+  }
+
+  .mobile-lang-switcher .lang-btn.active {
+    background: var(--color-border);
+    color: var(--color-green);
+  }
+
+  /* Mobile breakpoint */
   @media (max-width: 768px) {
     .nav-links {
       display: none;
     }
+
+    .lang-switcher {
+      display: none;
+    }
+
+    .menu-toggle {
+      display: flex;
+    }
+
+    .mobile-menu {
+      display: flex;
+    }
   }
 </style>
+
+<script>
+  function initNavbar() {
+    const containers = document.querySelectorAll('.navbar');
+    
+    containers.forEach(navbar => {
+      const toggle = navbar.querySelector('.menu-toggle') as HTMLButtonElement | null;
+      const menu = navbar.querySelector('.mobile-menu') as HTMLElement | null;
+
+      if (!toggle || !menu) return;
+
+      const toggleMenu = (force?: boolean) => {
+        const willOpen = force !== undefined ? force : !menu.classList.contains('open');
+        
+        menu.classList.toggle('open', willOpen);
+        toggle.classList.toggle('open', willOpen);
+        toggle.setAttribute('aria-expanded', String(willOpen));
+        menu.setAttribute('aria-hidden', String(!willOpen));
+      };
+
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMenu();
+      });
+
+      // Close drawer when any link inside is clicked
+      menu.querySelectorAll('a').forEach((link) => {
+        link.addEventListener('click', () => toggleMenu(false));
+      });
+
+      // Optional: Close when clicking outside
+      document.addEventListener('click', (e) => {
+        if (menu.classList.contains('open') && !navbar.contains(e.target as Node)) {
+          toggleMenu(false);
+        }
+      });
+    });
+  }
+
+  // Initialize on load
+  initNavbar();
+
+  // Handle Astro page loads if using transitions (optional safety)
+  document.addEventListener('astro:page-load', initNavbar);
+</script>

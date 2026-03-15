@@ -1,4 +1,6 @@
 ---
+import Icon from './Icon.astro';
+
 export interface Props {
   skills: any;
   colors?: any;
@@ -13,6 +15,14 @@ const catColors: Record<string, string> = {
   tools: 'tag--tools',
   gamedev: 'tag--gamedev',
 };
+
+// Map categories to pixelarticons icon names
+const catIcons: Record<string, string> = {
+  frontend: 'braces',
+  backend:  'server',
+  tools:    'tool-case',
+  gamedev:  'gamepad',
+};
 ---
 
 <div class="skills-section terminal-panel animate-on-load delay-4">
@@ -24,6 +34,9 @@ const catColors: Record<string, string> = {
     <div class="skills-grid">
       {skills[0].items.map((skill: any) => (
         <span class={`tag ${catColors[skill.cat] || ''}`}>
+          {catIcons[skill.cat] && (
+            <Icon name={catIcons[skill.cat]} size={11} />
+          )}
           {skill.name}
         </span>
       ))}
@@ -36,5 +49,11 @@ const catColors: Record<string, string> = {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
   }
 </style>

@@ -24,12 +24,12 @@ const labels = langData.data.labels;
   <Navbar lang={lang} activePage="skills" basePath="skills" />
 
   <main class="container page-content">
-    <SectionHeader title="Skills" />
+    <SectionHeader title="Skills" icon="terminal" />
     <Skills skills={shared.data.skills} />
 
     <div class="section-spacer"></div>
 
-    <SectionHeader title={labels.languages} />
+    <SectionHeader title={labels.languages} icon="languages" />
     <Languages items={langData.data.languages} />
   </main>
 
