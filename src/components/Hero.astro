@@ -33,17 +33,17 @@ const photoSrc = personal.photo?.startsWith('./') ? personal.photo.replace('./',
         <p class="summary">{info.summary}</p>
 
         <div class="actions">
-          <a href={`mailto:${personal.email}`} class="btn btn-primary">
+          <a href={`mailto:${personal.contact.email}`} class="btn btn-primary">
             <span class="btn-prefix">$</span> contact --email
           </a>
-          <a href={`https://${personal.link}`} target="_blank" rel="noreferrer" class="btn btn-secondary">
+          <a href={`https://${personal.contact.link}`} target="_blank" rel="noreferrer" class="btn btn-secondary">
             <span class="btn-prefix">$</span> open --linkedin
           </a>
         </div>
 
         <div class="contact-info">
           <span class="muted">location:</span>
-          <span>{personal.address}</span>
+          <span>{personal.contact.address}</span>
         </div>
       </div>
 
