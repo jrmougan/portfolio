@@ -6,6 +6,7 @@ export interface Props {
 }
 
 const { item, labels, colors } = Astro.props;
+const logoSrc = item.logo?.startsWith('./') ? item.logo.replace('./', '/') : item.logo;
 ---
 
 <div class="experience-card terminal-panel animate-on-load delay-2">
@@ -19,7 +20,7 @@ const { item, labels, colors } = Astro.props;
       <div class="company-info">
         {item.logo && (
           <div class="logo-wrapper">
-            <img src={item.logo} alt={item.company} class="company-logo" onerror="this.style.display='none'" />
+            <img src={logoSrc} alt={item.company} class="company-logo" onerror="this.style.display='none'" />
           </div>
         )}
         <div>
@@ -85,7 +86,7 @@ const { item, labels, colors } = Astro.props;
     align-items: center;
     justify-content: center;
     padding: 4px;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(255, 255, 255, 0.9);
     flex-shrink: 0;
   }
 

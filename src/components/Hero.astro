@@ -6,6 +6,7 @@ export interface Props {
 }
 
 const { personal, info, labels } = Astro.props;
+const photoSrc = personal.photo?.startsWith('./') ? personal.photo.replace('./', '/') : personal.photo;
 ---
 
 <header class="hero terminal-panel animate-on-load delay-1">
@@ -47,7 +48,7 @@ const { personal, info, labels } = Astro.props;
       </div>
 
       <div class="photo-wrapper">
-        <img src={personal.photo} alt={personal.name} class="profile-photo" />
+        <img src={photoSrc} alt={personal.name} class="profile-photo" />
       </div>
     </div>
   </div>
