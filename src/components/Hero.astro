@@ -5,10 +5,18 @@ export interface Props {
   personal: any;
   info: any;
   labels: any;
+  lang: string;
 }
 
-const { personal, info, labels } = Astro.props;
+const { personal, info, labels, lang } = Astro.props;
 const photoSrc = personal.photo?.startsWith('./') ? personal.photo.replace('./', '/') : personal.photo;
+
+const availabilityText: Record<string, string> = {
+  es: "Abierto a nuevos retos",
+  en: "Open to new challenges",
+  gl: "Aberto a novos retos"
+};
+const badgeText = availabilityText[lang] || availabilityText.es;
 ---
 
 <header class="hero terminal-panel animate-on-load delay-1">
@@ -21,7 +29,7 @@ const photoSrc = personal.photo?.startsWith('./') ? personal.photo.replace('./',
       <div class="hero-content">
         <div class="badge">
           <span class="badge-dot"></span>
-          Open to Work
+          {badgeText}
         </div>
 
         <h1 class="name">
