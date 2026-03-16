@@ -21,6 +21,12 @@ const { title, description = "Portfolio & Blog - Jesús Romeo Mougán", lang } =
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:locale" content={lang} />
+    <!-- Prevent theme flash -->
+    <script is:inline>
+      const theme = localStorage.getItem('theme') || 
+        (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+      document.documentElement.setAttribute('data-theme', theme);
+    </script>
     <!-- Styles -->
     <link rel="stylesheet" href="/styles/global.css" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

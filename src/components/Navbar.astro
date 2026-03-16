@@ -1,6 +1,7 @@
 ---
 import { SUPPORTED_LANGUAGES } from '../utils/data';
 import Icon from './Icon.astro';
+import ThemeToggle from './ThemeToggle.astro';
 
 export interface Props {
   lang: string;
@@ -49,6 +50,8 @@ const currentPath = basePath || '';
     </div>
 
     <div class="nav-right">
+      <ThemeToggle lang={lang} />
+
       <div class="lang-switcher">
         {SUPPORTED_LANGUAGES.map((l) => (
           <a
@@ -80,6 +83,7 @@ const currentPath = basePath || '';
       ))}
     </div>
     <div class="mobile-lang-switcher">
+      <ThemeToggle lang={lang} />
       {SUPPORTED_LANGUAGES.map((l) => (
         <a
           href={currentPath ? `/${l}/${currentPath}` : `/${l}`}
@@ -147,13 +151,21 @@ const currentPath = basePath || '';
     background: rgba(255, 255, 255, 0.05);
   }
 
+  [data-theme="light"] .nav-link:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+
   .nav-link.active { color: var(--color-cyan); }
 
-  /* Right side group: lang-switcher + hamburger */
+  /* Right side group: lang-switcher + theme + hamburger */
   .nav-right {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+  }
+
+  .theme-toggle {
+    flex-shrink: 0;
   }
 
   .lang-switcher {
@@ -178,6 +190,10 @@ const currentPath = basePath || '';
   .lang-btn:hover {
     color: var(--color-text-primary);
     background: rgba(255, 255, 255, 0.05);
+  }
+
+  [data-theme="light"] .lang-btn:hover {
+    background: rgba(0, 0, 0, 0.05);
   }
 
   .lang-btn.active {
@@ -290,6 +306,10 @@ const currentPath = basePath || '';
     border-left-color: var(--color-border);
   }
 
+  [data-theme="light"] .mobile-nav-link:hover {
+    background: rgba(0, 0, 0, 0.04);
+  }
+
   .mobile-nav-link.active {
     color: var(--color-cyan);
     border-left-color: var(--color-cyan);
@@ -298,14 +318,20 @@ const currentPath = basePath || '';
 
   .mobile-lang-switcher {
     display: flex;
-    gap: 2px;
+    align-items: center;
+    gap: 0.5rem;
     padding: 0.75rem 1.25rem;
     border-top: 1px solid var(--color-border);
+  }
+
+  .mobile-lang-switcher .theme-toggle {
+    flex-shrink: 0;
   }
 
   .mobile-lang-switcher .lang-btn {
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
+    padding: 4px 10px;
   }
 
   .mobile-lang-switcher .lang-btn.active {
