@@ -1,37 +1,38 @@
 ---
 title: "Equill"
-description: "App para compartir gastos en pareja. Liquida con bizum, efectivo u otros gastos para equilibrar la balanza."
+description: "Gestor financiero colaborativo moderno para dividir gastos y liquidar deudas en pareja. Incluye OCR de tickets con IA (Gemini)."
 date: 2024-11-01
-tags: ["Laravel", "PHP", "MySQL", "REST API"]
+tags: ["Next.js 15", "Prisma", "TailwindCSS", "MySQL", "Gemini AI"]
 lang: es
 status: development
+repo: "https://github.com/jrmougan/killbill"
 ---
 
 ## Sobre el proyecto
 
-**Equill** (nombre en clave: *killbill*) es una aplicación para gestionar gastos compartidos en pareja. La idea central es simple: registrar quién paga qué y ofrecer formas flexibles de liquidar la deuda.
+**Equill** (nombre en clave: *killbill*) es una aplicación moderna y colaborativa para gestionar finanzas y gastos compartidos exclusivamente en pareja. La idea central es sencilla: registrar quién paga qué y ofrecer formas seguras y flexibles de liquidar las deudas.
 
 ## Cómo funciona
 
-1. Ambos miembros registran sus gastos compartidos
-2. La app calcula quién debe a quién
-3. Se puede liquidar de varias formas:
-   - **Bizum** directo
-   - **Efectivo**
-   - **Compensación**: pagar un gasto del otro para equilibrar la balanza
+1. Ambos miembros de la pareja registran sus gastos compartidos.
+2. La app calcula los balances y quién debe a quién.
+3. Se puede liquidar de varias formas para equilibrar la balanza rápidamente.
 
 ## Stack técnico
 
-- **Backend**: Laravel con API REST
-- **Base de datos**: MySQL
-- **Frontend**: En planificación
+- **Framework**: Next.js 15 (App Router)
+- **Base de datos**: MySQL + Prisma ORM
+- **Estilos**: TailwindCSS + Shadcn/UI con diseño Glassmorphism
+- **Autenticación**: Sistema de sesiones basado en JWT seguro (`jose` + `bcryptjs`)
+- **Funciones IA**: Integración con la API de Gemini para OCR automático de tickets de comercios.
 
-## Planes futuros
+## Funciones destacadas
 
-- Apps nativas para **iOS** y **Android**
-- Notificaciones push para recordatorios de liquidación
-- Historial y estadísticas de gastos mensuales
+- **Escaneo OCR Inteligente**: Extrae los conceptos e importes de los tickets automáticamente usando Gemini AI.
+- Autenticación segura mediante cookies HttpOnly.
+- Middleware Edge-compatible para proteger rutas sensibles.
+- Despliegue en contenedor con configuración Docker Compose lista para producción.
 
 ## Estado
 
-En **desarrollo**.
+En **desarrollo activo**.

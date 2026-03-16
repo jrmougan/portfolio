@@ -1,8 +1,8 @@
 ---
 title: "Liceo de Sevilla"
-description: "Website for a Seville-based music association. Collaborative development and volunteering with Laravel."
+description: "Website and CMS for a music association developed in Laravel 11. Complete admin panel powered by Filament."
 date: 2024-06-01
-tags: ["Laravel", "PHP", "MySQL", "TailwindCSS"]
+tags: ["Laravel 11", "Filament", "PHP", "MySQL", "TailwindCSS"]
 lang: en
 url: "https://liceodesevilla.com"
 featured: true
@@ -11,22 +11,28 @@ status: production
 
 ## About the project
 
-**Liceo de Sevilla** is the website for a music association based in Seville, Spain. The project started as a volunteering collaboration to give the association a digital presence and help manage their activities.
+**Liceo de Sevilla** is the comprehensive web portal for a music association based in Seville. Starting as a volunteer collaboration for digital presence, it evolved into a robust CMS to manage news, albums, repertoires, brotherhoods, and processions.
 
 ## Tech stack
 
-- **Backend**: Laravel (PHP), with an admin panel for content management
-- **Database**: MySQL
-- **Frontend**: Blade templates + TailwindCSS
-- **Deployment**: Shared hosting, in production
+- **Backend / Core**: Laravel 11 (PHP 8.2+)
+- **Admin Panel**: Filament Admin Panel 3.x (complete resource and CRUD system)
+- **Database**: MySQL / PostgreSQL
+- **Public Frontend**: Blade templates + TailwindCSS
+- **Automated Deployment**: GitHub Actions with custom PHP deployment scripts (`deploy.php`) optimized for shared hosting with strict environments.
+
+## Key features
+
+- **Public Site**: Dynamic routes and menus driven by Laravel (`menu.php` configuration).
+- **Self-Managed CMS**: Fully integrated admin backend at `/admin` using Filament's Visual Components and Form Builder, heavily secured by authentication.
+- **Dynamic Sitemap**: Automated generation via CRON jobs for better SEO results.
 
 ## My role
 
-I participated as a volunteer, collaborating on:
-
-- Design and implementation of public-facing views
-- Integration with the admin panel
-- Mobile device optimization
+I participated in collaborative development, focusing mainly on:
+- Designing and building the core MVC architecture with Laravel.
+- Configuring and customizing the Filament Panel to give the association complete content independence.
+- Implementing CI/CD pipelines to automate FTP production deployments through GitHub Actions.
 
 ## Status
 

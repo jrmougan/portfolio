@@ -1,8 +1,8 @@
 ---
 title: "Liceo de Sevilla"
-description: "Web para una asociación musical sevillana. Desarrollo colaborativo y voluntariado con Laravel."
+description: "Web y CMS para una asociación musical desarrollados en Laravel 11. Panel de administración completo manejado por Filament."
 date: 2024-06-01
-tags: ["Laravel", "PHP", "MySQL", "TailwindCSS"]
+tags: ["Laravel 11", "Filament", "PHP", "MySQL", "TailwindCSS"]
 lang: es
 url: "https://liceodesevilla.com"
 featured: true
@@ -11,22 +11,28 @@ status: production
 
 ## Sobre el proyecto
 
-**Liceo de Sevilla** es la web de una asociación musical de Sevilla. El proyecto nació como una colaboración/voluntariado para dar presencia digital a la asociación y facilitar la gestión de sus actividades.
+**Liceo de Sevilla** es el portal web integral de una asociación musical de Sevilla. Nació como una colaboración para dar presencia digital a la asociación, evolucionando hacia un CMS robusto para gestionar noticias, álbumes, repertorios, hermandades y procesiones.
 
 ## Stack técnico
 
-- **Backend**: Laravel (PHP), con panel de administración para gestionar contenidos
-- **Base de datos**: MySQL
-- **Frontend**: Blade templates + TailwindCSS
-- **Despliegue**: Servidor compartido, en producción
+- **Backend / Core**: Laravel 11 (PHP 8.2+)
+- **Panel de Administración**: Filament Admin Panel 3.x (sistema completo de recursos y CRUD)
+- **Base de datos**: MySQL / PostgreSQL
+- **Frontend Público**: Blade templates + TailwindCSS
+- **Despliegue automatizado**: GitHub Actions con scripts en PHP (`deploy.php`) orientados a un hosting compartido sin `proc_open()`
+
+## Características clave
+
+- **Sitio Público**: Rutas públicas y dinámicas manejadas desde Laravel (configuración en `menu.php`).
+- **CMS Autogestionable**: Gestión integral bajo `/admin` manejada mediante los Componentes Visuales y Form Builder de Filament, protegida por autenticación.
+- **Sitemap Dinámico**: Generación automatizada mediante CRON para mejor SEO.
 
 ## Mi rol
 
-Participé en el desarrollo como voluntario, colaborando en:
-
-- Diseño e implementación de las vistas públicas
-- Integración con el panel de administración
-- Optimización para dispositivos móviles
+Participé de forma colaborativa en el desarrollo, destacando en:
+- Diseño y construcción de la arquitectura MVC con Laravel.
+- Configuración y personalización del Panel de Filament para dotar a la asociación de independencia en el manejo de su contenido.
+- Implementación de flujos de CI/CD para automatizar subidas al servidor de producción vía FTP con GitHub Actions.
 
 ## Estado
 

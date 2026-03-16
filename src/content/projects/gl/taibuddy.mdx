@@ -1,31 +1,38 @@
 ---
 title: "Taibuddy"
-description: "Aplicación Laravel para preparar oposicións. En desenvolvemento, con plans de facela xenérica para calquera tipo de exame."
+description: "Plataforma de estudo e simulacros de exame impulsada por Laravel 12 e Inertia.js (React/Vue)."
 date: 2024-09-01
-tags: ["Laravel", "PHP", "MySQL", "Livewire"]
+tags: ["Laravel 12", "Inertia.js", "Filament", "MySQL", "TailwindCSS"]
 lang: gl
 status: development
 ---
 
 ## Sobre o proxecto
 
-**Taibuddy** é unha aplicación web pensada para a preparación de oposicións (exames de acceso á función pública en España). A idea é ofrecer unha ferramenta de estudo con tests, seguimento de progreso e estatísticas.
+**Taibuddy** é unha avanzada plataforma educativa online e simulador de exames deseñada para preparar *oposicións* e iterar sobre calquera outro tipo de proba académica. Ofrece ferramentas de estudo dinámicas, tests configurables, seguimento avanzado e estatísticas de usuario.
 
 ## Motivación
 
-Preparar oposicións implica estudar grandes volumes de temario e facer centos de tests tipo. As ferramentas existentes son caras ou pouco flexibles. Taibuddy pretende ser unha alternativa accesible e adaptable.
+Os exames competitivos esixen memorizar moitísimo contido e adestrarse con centos de preguntas tipo test. As plataformas existentes adoitan ser pouco flexibles. Taibuddy nace para aportar unha interface ultrarrápida (grazas a Inertia.js) e un sistema avanzado de avaliación do progreso.
 
 ## Stack técnico
 
-- **Backend**: Laravel con Livewire para interactividade
+- **Backend**: Laravel 12 con sistema de Jetstream e Sanctum
+- **Frontend**: Inertia.js (SPA moderna impulsada polo servidor) con TailwindCSS
+- **Panel Administrativo**: Filament Shield + Filament 3.3 para roles e permisos
 - **Base de datos**: MySQL
-- **Autenticación**: Sistema de usuarios con roles
+- **Autenticación**: Xestión de usuarios baseada en tokens e roles (Spatie Permission)
+
+## Características clave
+
+- **Sesións de Estudo**: Aprendizaxe por temas con resolución de cuestións.
+- **Simulacros Oficiais**: Avaliacións pautadas con temporizador, gardado automático de progreso e envíos exhaustivos.
+- **Dashboard Estatístico**: Métricas de usuario sobre exames aprobados ou fallados para reforzar o estudo.
 
 ## Plans futuros
 
-- Facer a plataforma **xenérica** para que sirva para calquera tipo de exame, non só oposicións
-- Sistema de importación de bancos de preguntas
-- Estatísticas avanzadas e modo repaso intelixente
+- Expandir a plataforma **xenericamente** permitindo a xestión descentralizada de exames e certificacións de todo tipo.
+- Intelixencia Artificial para xerar explicacións a preguntas falladas.
 
 ## Estado
 

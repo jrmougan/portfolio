@@ -1,31 +1,38 @@
 ---
 title: "Taibuddy"
-description: "Laravel application for state exam preparation. In development, with plans to make it generic for any exam type."
+description: "Study platform and exam simulator powered by Laravel 12 and Inertia.js (React/Vue)."
 date: 2024-09-01
-tags: ["Laravel", "PHP", "MySQL", "Livewire"]
+tags: ["Laravel 12", "Inertia.js", "Filament", "MySQL", "TailwindCSS"]
 lang: en
 status: development
 ---
 
 ## About the project
 
-**Taibuddy** is a web application designed for preparing *oposiciones* (civil service entrance exams in Spain). It aims to provide a study tool with practice tests, progress tracking, and statistics.
+**Taibuddy** is an advanced online educational platform and exam simulator designed for civil service exams (*oposiciones*) and scalable to any academic testing environment. It provides dynamic study tools, configurable quizzes, advanced monitoring, and user statistics.
 
 ## Motivation
 
-Preparing for civil service exams involves studying large volumes of material and completing hundreds of practice tests. Existing tools are expensive or inflexible. Taibuddy aims to be an accessible and adaptable alternative.
+Competitive exams require memorizing heavy amounts of content and training with hundreds of multiple-choice questions. Existing platforms often lack flexibility. Taibuddy was built to provide an ultra-fast interface (thanks to Inertia.js) and a state-of-the-art progress evaluation system.
 
 ## Tech stack
 
-- **Backend**: Laravel with Livewire for interactivity
+- **Backend**: Laravel 12 with Jetstream and Sanctum
+- **Frontend**: Inertia.js (modern server-driven SPA) with TailwindCSS
+- **Admin Panel**: Filament Shield + Filament 3.3 for roles and permissions
 - **Database**: MySQL
-- **Authentication**: User system with roles
+- **Authentication**: Token and role-based user management (Spatie Permission)
+
+## Key features
+
+- **Study Sessions**: Topic-based learning and question solving.
+- **Official Simulations**: Timed, structured evaluations with progress saving and comprehensive final submissions.
+- **Statistical Dashboard**: User metrics on passed or failed exams to enforce targeted studying.
 
 ## Future plans
 
-- Make the platform **generic** so it can serve any type of exam, not just civil service
-- Question bank import system
-- Advanced statistics and smart review mode
+- Expand the platform **generically** allowing decentralized management for exams and certifications of all kinds.
+- Artificial Intelligence integration to generate explanations for incorrect answers.
 
 ## Status
 

@@ -1,37 +1,38 @@
 ---
 title: "Equill"
-description: "Couple expense sharing app. Settle with bank transfer, cash, or other expenses to balance things out."
+description: "Modern collaborative finance tracker for couples to split expenses and settle debts. Includes AI receipt OCR (Gemini)."
 date: 2024-11-01
-tags: ["Laravel", "PHP", "MySQL", "REST API"]
+tags: ["Next.js 15", "Prisma", "TailwindCSS", "MySQL", "Gemini AI"]
 lang: en
 status: development
+repo: "https://github.com/jrmougan/killbill"
 ---
 
 ## About the project
 
-**Equill** (codename: *killbill*) is an application for managing shared expenses between couples. The core idea is simple: track who pays what and offer flexible ways to settle up.
+**Equill** (codename: *killbill*) is a modern collaborative application specifically for managing shared finances and expenses as a couple. The core idea is simple: track who pays what and offer secure, flexible ways to settle up your debts.
 
 ## How it works
 
-1. Both members log their shared expenses
-2. The app calculates who owes whom
-3. Settlement can happen in several ways:
-   - **Bank transfer** (Bizum in Spain)
-   - **Cash**
-   - **Compensation**: pay for the other's expense to balance things out
+1. Both partners log their shared expenses.
+2. The app calculates balances and handles who owes whom.
+3. Debts can be settled in multiple ways to balance things out quickly.
 
 ## Tech stack
 
-- **Backend**: Laravel with REST API
-- **Database**: MySQL
-- **Frontend**: In planning phase
+- **Framework**: Next.js 15 (App Router)
+- **Database**: MySQL + Prisma ORM
+- **Styling**: TailwindCSS + Shadcn/UI with Glassmorphism design
+- **Authentication**: Secure JWT-based session system (`jose` + `bcryptjs`)
+- **AI Features**: Gemini API integration for automatic receipt OCR scanning.
 
-## Future plans
+## Key features
 
-- Native **iOS** and **Android** apps
-- Push notifications for settlement reminders
-- Monthly expense history and statistics
+- **Smart OCR Scanning**: Automatically extract receipt items and totals using Gemini AI.
+- Secure authentication using HttpOnly cookies.
+- Edge-compatible middleware to protect sensitive routes.
+- Containerized deployment with production-ready Docker Compose setup.
 
 ## Status
 
-In **development**.
+In **active development**.
