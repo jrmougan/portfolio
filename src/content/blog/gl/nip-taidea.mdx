@@ -1,0 +1,89 @@
+---
+title: "NiP_tAIdea: alucinacións, aleatoriedad falsa e un anfitrión de IA sarcástico"
+description: "Os retos reais de construír un Akinator inverso: modelos baratos que esquezan o seu propio segredo e unha IA que sempre elixía as mesmas dez palabras."
+date: 2026-03-25
+tags: ["next.js", "vercel-ai-sdk", "gemini", "sqlite", "xogo", "docker", "coolify"]
+lang: gl
+---
+
+[NiP_tAIdea](https://niptaidea.mougan.es) é un xogo de adiviñanza onde unha IA escolle un concepto secreto — unha persoa, lugar, animal, obra ou concepto abstracto — e tes 15 preguntas para adiviñalo. A IA responde con Si, Non, Frío, Tibio ou Quente. Tamén ten personalidade condescendente e comeza a insultarte se quedas calado demasiado tempo.
+
+A mecánica do xogo é sinxela. Conseguir que a IA se comportase como un anfitrión consistente — e lixeiramente antipático — foi a parte interesante.
+
+## Problema 1: os modelos baratos esquezan o seu propio segredo
+
+A primeira versión usaba un modelo pequeno e barato. Baixa latencia, baixo custo — é só un xogo de adiviñanzas, que difícil pode ser?
+
+Bastante. Os modelos pequenos baixo un system prompt restritivo tenden a *derivar*. Tras varios quendas, o modelo comezaba a contradecir as súas propias respostas anteriores — xogando efectivamente cun concepto diferente ao que escollerá ao principio. Desde o punto de vista do xogador, o xogo vólvese irresoluble. A IA non fai trampa a propósito; simplemente perdeu o fío do que decidiu.
+
+O fallo tiña esta pinta:
+
+```
+Xogador: Está vivo?
+IA: Non.
+
+[6 preguntas despois]
+
+Xogador: É un animal?
+IA: Tibio! Estaste achegando.
+```
+
+O modelo non cambiara o concepto — esquecérao. Cun modelo capaz isto é raro; cun pequeno é o suficientemente frecuente como para facer o xogo inxogable. A solución foi migrar a Gemini Flash 3 (vía OpenRouter) e volver a enunciar o concepto explicitamente ao inicio de cada batch de mensaxes enviado ao modelo — non só na inicialización da partida. A inferencia sen estado obriga a re-anclar en cada chamada.
+
+## Problema 2: a IA sempre elixía can, coche e mazá
+
+Unha vez que o xogo era consistente, apareceu outro problema: a IA seguía elixindo os mesmos conceptos. Can. Coche. Mazá. Cadeira. Piano. Sempre.
+
+Non é un bug — é como funcionan os modelos de linguaxe. Xeran o token máis *probable* e, cando se lles pide que "escollan un concepto ao azar", as respostas máis probables son os substantivos máis comúns nos datos de adestramento. Sen ningún empuxe, o modelo converxe sempre no mesmo pequeno conxunto.
+
+Dúas cousas arranxárono:
+
+**Unha semente no system prompt.** Cada partida xera un número aleatorio no servidor e inxéctao nas instrucións:
+
+```typescript
+const seed = Math.floor(Math.random() * 100000);
+
+const systemPrompt = `
+Es o anfitrión dun xogo de adiviñanzas. Semente: ${seed}.
+Usa esta semente para variar a túa elección de concepto. Escolle algo específico e
+inesperado — evita palabras xenéricas como "can", "coche", "mazá", "cadeira".
+...
+`;
+```
+
+A semente non funciona como un RNG — o modelo non computa con ela. Pero desprace a ventá de contexto o suficiente para que o modelo mostre dunha rexión diferente da súa distribución. A diversidade de conceptos mellorou notablemente.
+
+**Unha lista de conceptos xa vistos desde localStorage.** Os últimos 20 conceptos que viu o xogador gárdanse en `localStorage` e envíanse ao endpoint `/api/game/init` en cada nova partida. O system prompt inclúeos explicitamente como conceptos a evitar. Isto significa que un xogador que xoga repetidamente obterá variedade entre sesións, non só dentro dunha.
+
+```typescript
+// cliente — antes de comezar unha nova partida
+const seen = JSON.parse(localStorage.getItem('seenConcepts') ?? '[]');
+const { token } = await fetch('/api/game/init', {
+  method: 'POST',
+  body: JSON.stringify({ avoidConcepts: seen }),
+}).then(r => r.json());
+```
+
+Combinados, a semente e a lista de evitación fixeron que a elección de concepto se sentise xenuinamente variada.
+
+## Outros detalles de implementación que vale a pena mencionar
+
+**Tolerancia a erros tipográficos.** As respostas do xogador valídanse con distancia de Levenshtein (≤ 2) contra o concepto real, polo que `elefanto` segue sendo correcto se o concepto é `elefante`. Sen isto, o xogo séntese inxustamente punitivo.
+
+**Cifrado do concepto.** O concepto cífrase con AES-GCM antes de envialo ao cliente como token opaco. Isto evita que os xogadores o lean na pestana Network das DevTools. A clave derívase dunha variable de contorno `GAME_SECRET`.
+
+**Taunts automáticos.** Se o xogador está inactivo 60, 120, 180 ou 240 segundos, a IA inxecta automaticamente unha mensaxe de burla. Esta foi a funcionalidade máis divertida de axustar — as primeiras versións eran demasiado agresivas e resultaban molestas en lugar de graciosas.
+
+## Stack
+
+- **Next.js 16 App Router** — Server Actions, respostas en streaming
+- **Gemini Flash 3 vía OpenRouter** — suficientemente capaz para gardar un segredo, suficientemente rápido para un xogo
+- **Vercel AI SDK v6** — `useChat` e `streamText` para o bucle de conversación
+- **SQLite / `better-sqlite3`** — persistencia de sesións e leaderboard top 10
+- **Docker + Coolify** — autoaloxado no meu VPS, ficheiro SQLite nun volume persistente
+
+## A lección real
+
+Construír un xogo sobre un modelo de linguaxe significa que o modelo *é* a túa lóxica de xogo. O prompt engineering non é decoración — é onde viven os bugs. Os dous problemas principais aquí (alucinación e aleatoriedad falsa) viñan da mesma raíz: subestimar canto necesita que lle digan explicitamente, en cada chamada, o que se supón que ten que estar facendo.
+
+O xogo está dispoñible en [niptaidea.mougan.es](https://niptaidea.mougan.es).

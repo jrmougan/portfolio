@@ -1,0 +1,41 @@
+---
+title: "NiP_tAIdea"
+description: "Xogo de adiviñanza con IA sarcástica: 15 preguntas para descubrir o concepto secreto antes de que comece a insultarte."
+date: 2026-03-25
+tags: ["Next.js", "React 19", "TypeScript", "Tailwind CSS", "Vercel AI SDK", "Gemini", "OpenRouter", "SQLite", "Docker", "Coolify"]
+lang: gl
+status: completed
+demo: "https://niptaidea.mougan.es"
+---
+
+## Sobre o proxecto
+
+**NiP_tAIdea** é un xogo de adiviñanza inspirado en Akinator — pero invertido e con actitude. A IA escolle un concepto secreto dunha de cinco categorías (Persoa, Lugar, Animal, Obra ou Concepto) e tes **15 preguntas** para adiviñalo. A IA ten unha personalidade condescendente: insultarache se tardas demasiado e non agacha o seu desprezo cando fas unha pregunta mala.
+
+Podes facer preguntas de si/non ou intentar adiviñar directamente. A IA responde con: **Si, Non, Frío, Tibio** ou **Quente** — dando pistas direccionais sen confirmar demasiado. Os gañadores poden gardar a súa puntuación no top 10, ordenado por intentos usados e logo por tempo.
+
+## Stack técnico
+
+| Capa | Tecnoloxía |
+|---|---|
+| Framework | Next.js 16 (App Router, standalone output) |
+| UI | React 19 + Tailwind CSS v4 |
+| IA | Gemini Flash 3 vía OpenRouter (`@openrouter/ai-sdk-provider`) |
+| Streaming | Vercel AI SDK v6 (`useChat`, `streamText`) |
+| Base de datos | SQLite (`better-sqlite3`) |
+| Despregamento | Docker + Coolify |
+
+## Características clave
+
+- **5 categorías** con selección ponderada — Persoa, Lugar, Animal, Obra, Concepto.
+- **Pistas de temperatura** — as respostas van máis alá do si/non: Frío, Tibio, Quente dan orientación direccional.
+- **Sistema sen repetición** — os últimos 20 conceptos vistos gárdanse en `localStorage` e envíanse ao endpoint de inicio para que o modelo os evite.
+- **Tolerancia a erros tipográficos** — as respostas do xogador valídanse con distancia de Levenshtein (≤ 2), polo que pequenos erros tipográficos non custan un intento.
+- **Cifrado do concepto** — o concepto cífrase con AES-GCM antes de envialo ao cliente como token opaco, evitando trampas desde as DevTools.
+- **Taunts automáticos** — se o xogador está inactivo 60, 120, 180 ou 240 segundos, a IA inxecta automaticamente unha mensaxe de burla.
+- **Rate limiting** — 30 partidas por IP por hora (fixed-window, en memoria).
+- **Top 10 leaderboard** — ordenado por intentos usados (asc), logo por tempo (asc). Se o marcador está cheo e a nova puntuación é peor que a última entrada, descártase.
+
+## Demo
+
+Dispoñible en [niptaidea.mougan.es](https://niptaidea.mougan.es).

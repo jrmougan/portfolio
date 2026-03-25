@@ -1,0 +1,41 @@
+---
+title: "NiP_tAIdea"
+description: "Guessing game with a sarcastic AI: 15 yes/no questions to discover the secret concept before it starts insulting you."
+date: 2026-03-25
+tags: ["Next.js", "React 19", "TypeScript", "Tailwind CSS", "Vercel AI SDK", "Gemini", "OpenRouter", "SQLite", "Docker", "Coolify"]
+lang: en
+status: completed
+demo: "https://niptaidea.mougan.es"
+---
+
+## About the project
+
+**NiP_tAIdea** is a guessing game inspired by Akinator — but reversed and with attitude. The AI picks a secret concept from one of five categories (Person, Place, Animal, Work, or Concept) and you have **15 questions** to figure it out. The AI has a condescending personality: it will taunt you if you take too long, and it doesn't hide its contempt when you ask a bad question.
+
+You can ask yes/no questions or try to guess directly. The AI responds with: **Yes, No, Cold, Warm,** or **Hot** — giving directional hints without ever confirming too much. Winners can save their score to the top 10 leaderboard, ranked by fewest attempts used, then by time.
+
+## Tech stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 (App Router, standalone output) |
+| UI | React 19 + Tailwind CSS v4 |
+| AI | Gemini Flash 3 via OpenRouter (`@openrouter/ai-sdk-provider`) |
+| Streaming | Vercel AI SDK v6 (`useChat`, `streamText`) |
+| Database | SQLite (`better-sqlite3`) |
+| Deployment | Docker + Coolify |
+
+## Key features
+
+- **5 categories** with weighted selection — Person, Place, Animal, Work, Concept.
+- **Temperature hints** — responses go beyond yes/no: Cold, Warm, Hot give directional feedback.
+- **No-repeat system** — the last 20 seen concepts are stored in `localStorage` and sent to the init endpoint so the model avoids them.
+- **Typo tolerance** — player guesses are validated with Levenshtein distance (≤ 2), so small typos don't cost a life.
+- **Concept encryption** — the concept is AES-GCM encrypted before being sent to the client as an opaque token, preventing cheating via DevTools.
+- **Auto-taunts** — if the player is idle for 60, 120, 180, or 240 seconds, the AI automatically injects a taunting message.
+- **Rate limiting** — 30 games per IP per hour (fixed-window, in-memory).
+- **Top 10 leaderboard** — ranked by attempts used (asc), then by time (asc). If the board is full and the new score is worse than the last entry, it is discarded.
+
+## Demo
+
+Live at [niptaidea.mougan.es](https://niptaidea.mougan.es).

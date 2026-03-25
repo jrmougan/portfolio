@@ -1,0 +1,89 @@
+---
+title: "NiP_tAIdea: hallucinations, fake randomness, and a sarcastic AI host"
+description: "The real challenges of building a reverse Akinator: cheap models that forget their own secret, and an AI that kept picking the same ten words."
+date: 2026-03-25
+tags: ["next.js", "vercel-ai-sdk", "gemini", "sqlite", "game", "docker", "coolify"]
+lang: en
+---
+
+[NiP_tAIdea](https://niptaidea.mougan.es) is a guessing game where an AI picks a secret concept — a person, place, animal, work, or abstract concept — and you have 15 questions to figure it out. The AI responds with Yes, No, Cold, Warm, or Hot. It also has a condescending personality and will start taunting you if you go quiet for too long.
+
+The game mechanic is simple. Getting the AI to actually behave like a consistent, slightly mean game host was the interesting part.
+
+## Problem 1: cheap models forget their own secret
+
+The first version used a small, cheap model. Low latency, low cost — it's just a guessing game, how hard can it be?
+
+Hard enough. Small models under a constrained system prompt tend to *drift*. After several turns, the model would start contradicting its own earlier answers — effectively playing a different concept than the one it chose at the start. From the player's perspective, the game becomes unsolvable. The AI isn't cheating on purpose; it just lost track of what it decided.
+
+The failure looked like this:
+
+```
+Player: Is it alive?
+AI: No.
+
+[6 questions later]
+
+Player: Is it an animal?
+AI: Warm! You're getting closer.
+```
+
+The model hadn't changed the concept — it forgot it. With a capable model this is rare; with a small one it's frequent enough to make the game unplayable. The fix was switching to Gemini Flash 3 (via OpenRouter) and re-stating the concept explicitly at the start of every message batch sent to the model — not just at game initialization. Stateless inference means you re-anchor on every call.
+
+## Problem 2: the AI kept picking dog, car, and apple
+
+Once the game was consistent, a different problem surfaced: the AI kept choosing the same concepts. Dog. Car. Apple. Chair. Piano. Every. Single. Game.
+
+This isn't a bug — it's how language models work. They generate the most *probable* next token, and when prompted to "pick a random concept," the most probable answers are the most common nouns in training data. Without any nudge, the model converges on the same small pool every time.
+
+Two things fixed this:
+
+**A seed in the system prompt.** Each game generates a random number server-side and injects it into the instructions:
+
+```typescript
+const seed = Math.floor(Math.random() * 100000);
+
+const systemPrompt = `
+You are the host of a guessing game. Seed: ${seed}.
+Use this seed to vary your concept choice. Pick something specific and
+unexpected — avoid generic words like "dog", "car", "apple", "chair".
+...
+`;
+```
+
+The seed doesn't work as an RNG — the model doesn't compute with it. But it shifts the context window enough that the model samples from a different region of its distribution. The concept diversity improved noticeably.
+
+**A no-repeat list from localStorage.** The last 20 concepts the player has seen are stored in `localStorage` and sent to the `/api/game/init` endpoint on each new game. The system prompt includes them explicitly as concepts to avoid. This means a player who plays repeatedly will get variety across sessions, not just within a single session.
+
+```typescript
+// client — before starting a new game
+const seen = JSON.parse(localStorage.getItem('seenConcepts') ?? '[]');
+const { token } = await fetch('/api/game/init', {
+  method: 'POST',
+  body: JSON.stringify({ avoidConcepts: seen }),
+}).then(r => r.json());
+```
+
+Combined, the seed and the avoid-list made the concept selection feel genuinely varied.
+
+## A few other implementation details worth mentioning
+
+**Typo tolerance.** Player guesses are validated with Levenshtein distance (≤ 2) against the real concept, so `elepaht` still wins if the concept is `elephant`. Without this, the game feels punishing for no good reason.
+
+**Concept encryption.** The concept is AES-GCM encrypted before being sent to the client as an opaque token. This stops players from reading it in DevTools Network tab. The key is derived from a `GAME_SECRET` environment variable.
+
+**Auto-taunts.** If the player is idle for 60, 120, 180, or 240 seconds, the AI injects a taunting message automatically. This was the most fun feature to tune — early versions were too aggressive and it felt annoying rather than playful.
+
+## Stack
+
+- **Next.js 16 App Router** — Server Actions, streaming responses
+- **Gemini Flash 3 via OpenRouter** — capable enough to hold a secret, fast enough for a game
+- **Vercel AI SDK v6** — `useChat` and `streamText` for the conversation loop
+- **SQLite / `better-sqlite3`** — session persistence and top-10 leaderboard
+- **Docker + Coolify** — self-hosted on my VPS, SQLite file on a persistent volume
+
+## The actual lesson
+
+Building a game on top of a language model means the model *is* your game logic. Prompt engineering isn't decoration — it's where the bugs live. Both main problems here (hallucination and fake randomness) came down to the same root cause: underestimating how much the model needs to be told explicitly, on every single call, what it's supposed to be doing.
+
+The game is live at [niptaidea.mougan.es](https://niptaidea.mougan.es).
