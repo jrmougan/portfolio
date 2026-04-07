@@ -5,99 +5,306 @@ export interface Props {
 
 const { lang = 'es' } = Astro.props;
 
-const labels: Record<string, { toggle: string }> = {
-  es: { toggle: 'Cambiar tema' },
-  en: { toggle: 'Toggle theme' },
-  gl: { toggle: 'Cambiar tema' },
+const themeLabels: Record<string, Record<string, string>> = {
+  es: { label: 'Tema', dark: 'Oscuro', light: 'Claro', retro90s: 'Retro 90s' },
+  en: { label: 'Theme', dark: 'Dark',   light: 'Light', retro90s: 'Retro 90s' },
+  gl: { label: 'Tema', dark: 'Escuro',  light: 'Claro', retro90s: 'Retro 90s' },
 };
+
+const t = themeLabels[lang] || themeLabels.es;
 ---
 
-<button class="theme-toggle" type="button" aria-label={labels[lang]?.toggle || labels.es.toggle}>
-  <span class="theme-icon theme-icon--sun">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="12" cy="12" r="5"></circle>
-      <line x1="12" y1="1" x2="12" y2="3"></line>
-      <line x1="12" y1="21" x2="12" y2="23"></line>
-      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-      <line x1="1" y1="12" x2="3" y2="12"></line>
-      <line x1="21" y1="12" x2="23" y2="12"></line>
-      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+<div class="theme-selector" data-lang={lang}>
+  <button
+    class="theme-trigger"
+    type="button"
+    aria-haspopup="listbox"
+    aria-expanded="false"
+    aria-label={t.label}
+  >
+    <!-- Icon shown per active theme -->
+    <span class="theme-icon theme-icon--dark">
+      <!-- Moon -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </span>
+    <span class="theme-icon theme-icon--light">
+      <!-- Sun -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+    </span>
+    <span class="theme-icon theme-icon--retro">
+      <!-- CRT Monitor -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="3" width="20" height="13"></rect>
+        <polyline points="8 21 12 17 16 21"></polyline>
+        <line x1="12" y1="17" x2="12" y2="16"></line>
+      </svg>
+    </span>
+    <!-- Chevron -->
+    <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"></polyline>
     </svg>
-  </span>
-  <span class="theme-icon theme-icon--moon">
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-    </svg>
-  </span>
-</button>
+  </button>
+
+  <div class="theme-dropdown" role="listbox" aria-label={t.label} hidden>
+    <button class="theme-option" role="option" data-theme-value="dark">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+      {t.dark}
+    </button>
+    <button class="theme-option" role="option" data-theme-value="light">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+      {t.light}
+    </button>
+    <button class="theme-option" role="option" data-theme-value="retro90s">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="3" width="20" height="13"></rect>
+        <polyline points="8 21 12 17 16 21"></polyline>
+        <line x1="12" y1="17" x2="12" y2="16"></line>
+      </svg>
+      {t.retro90s}
+    </button>
+  </div>
+</div>
 
 <style>
-  .theme-toggle {
+  .theme-selector {
+    position: relative;
+  }
+
+  /* Trigger button */
+  .theme-trigger {
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 32px;
+    gap: 4px;
+    padding: 0 8px;
     height: 32px;
-    padding: 0;
     background: transparent;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
     cursor: pointer;
     color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
     transition: all var(--transition-fast);
   }
 
-  .theme-toggle:hover {
+  .theme-trigger:hover {
     border-color: var(--color-text-muted);
     color: var(--color-text-primary);
   }
 
+  .theme-trigger[aria-expanded="true"] {
+    border-color: var(--color-accent-1);
+    color: var(--color-text-primary);
+  }
+
+  /* Icons - show only the active one */
   .theme-icon {
     display: none;
     align-items: center;
     justify-content: center;
   }
 
-  .theme-icon svg {
-    display: block;
+  .theme-icon svg { display: block; }
+
+  :global([data-theme="dark"])    .theme-icon--dark  { display: flex; }
+  :global([data-theme="light"])   .theme-icon--light { display: flex; }
+  :global([data-theme="retro90s"]) .theme-icon--retro { display: flex; }
+
+  .chevron {
+    opacity: 0.6;
+    transition: transform var(--transition-fast);
+    flex-shrink: 0;
   }
 
-  /* Show sun icon in dark mode (to switch to light) */
-  :global([data-theme="dark"]) .theme-icon--sun {
-    display: flex;
+  .theme-trigger[aria-expanded="true"] .chevron {
+    transform: rotate(180deg);
   }
 
-  /* Show moon icon in light mode (to switch to dark) */
-  :global([data-theme="light"]) .theme-icon--moon {
+  /* Dropdown */
+  .theme-dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    min-width: 130px;
+    background: var(--color-bg-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 4px;
+    z-index: 200;
     display: flex;
+    flex-direction: column;
+    gap: 2px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .theme-dropdown[hidden] { display: none; }
+
+  /* Options */
+  .theme-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 6px 10px;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-text-muted);
+    text-align: left;
+    transition: all var(--transition-fast);
+  }
+
+  .theme-option:hover {
+    background: var(--color-bg-card);
+    color: var(--color-text-primary);
+  }
+
+  .theme-option[aria-selected="true"] {
+    color: var(--color-accent-1);
+  }
+
+  /* ── Retro 90s overrides ──────────────────────────────── */
+
+  :global([data-theme="retro90s"]) .theme-trigger {
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    background: #c0c0c0;
+    border-radius: 0;
+    color: #000000;
+  }
+
+  :global([data-theme="retro90s"]) .theme-trigger:hover,
+  :global([data-theme="retro90s"]) .theme-trigger[aria-expanded="true"] {
+    border-color: #808080 #ffffff #ffffff #808080;
+    color: #000000;
+  }
+
+  :global([data-theme="retro90s"]) .theme-dropdown {
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    background: #c0c0c0;
+    border-radius: 0;
+    box-shadow: 2px 2px 0 #000000;
+    padding: 2px;
+  }
+
+  :global([data-theme="retro90s"]) .theme-option {
+    border-radius: 0;
+    color: #000000;
+    font-family: 'Times New Roman', serif;
+  }
+
+  :global([data-theme="retro90s"]) .theme-option:hover {
+    background: #000080;
+    color: #ffffff;
+  }
+
+  :global([data-theme="retro90s"]) .theme-option[aria-selected="true"] {
+    color: #000080;
+    font-weight: bold;
+  }
+
+  :global([data-theme="retro90s"]) .theme-option[aria-selected="true"]:hover {
+    color: #ffffff;
   }
 </style>
 
 <script>
-  function initThemeToggle() {
-    const toggle = document.querySelector('.theme-toggle');
-    if (!toggle) return;
-
+  function initThemeSelector() {
+    const VALID_THEMES = ['dark', 'light', 'retro90s'];
     const html = document.documentElement;
 
-    const getPreferredTheme = (): 'light' | 'dark' => {
-      const stored = localStorage.getItem('theme');
-      if (stored === 'light' || stored === 'dark') return stored;
-      return window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-    };
-
-    const setTheme = (theme: 'light' | 'dark') => {
+    const setTheme = (theme: string) => {
       html.setAttribute('data-theme', theme);
       localStorage.setItem('theme', theme);
     };
 
-    toggle.addEventListener('click', () => {
-      const current = html.getAttribute('data-theme');
-      setTheme(current === 'light' ? 'dark' : 'light');
+    // Handle all instances (desktop + mobile navbars)
+    document.querySelectorAll<HTMLElement>('.theme-selector').forEach((selector) => {
+      const trigger = selector.querySelector<HTMLButtonElement>('.theme-trigger');
+      const dropdown = selector.querySelector<HTMLElement>('.theme-dropdown');
+      const options = selector.querySelectorAll<HTMLButtonElement>('.theme-option');
+
+      if (!trigger || !dropdown) return;
+
+      const updateSelected = () => {
+        const current = html.getAttribute('data-theme') || 'dark';
+        options.forEach((opt) => {
+          opt.setAttribute('aria-selected', String(opt.dataset.themeValue === current));
+        });
+      };
+
+      const openDropdown = () => {
+        dropdown.hidden = false;
+        trigger.setAttribute('aria-expanded', 'true');
+        updateSelected();
+      };
+
+      const closeDropdown = () => {
+        dropdown.hidden = true;
+        trigger.setAttribute('aria-expanded', 'false');
+      };
+
+      trigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        dropdown.hidden ? openDropdown() : closeDropdown();
+      });
+
+      options.forEach((opt) => {
+        opt.addEventListener('click', () => {
+          const theme = opt.dataset.themeValue;
+          if (theme && VALID_THEMES.includes(theme)) {
+            setTheme(theme);
+            // Update all selectors on the page
+            document.querySelectorAll<HTMLButtonElement>('.theme-option').forEach((o) => {
+              o.setAttribute('aria-selected', String(o.dataset.themeValue === theme));
+            });
+          }
+          closeDropdown();
+        });
+      });
+
+      // Close on outside click
+      document.addEventListener('click', (e) => {
+        if (!selector.contains(e.target as Node)) closeDropdown();
+      });
+
+      // Close on Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeDropdown();
+      });
+
+      updateSelected();
     });
 
+    // Sync OS preference if no stored theme
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
       if (!localStorage.getItem('theme')) {
         setTheme(e.matches ? 'dark' : 'light');
@@ -105,6 +312,6 @@ const labels: Record<string, { toggle: string }> = {
     });
   }
 
-  initThemeToggle();
-  document.addEventListener('astro:page-load', initThemeToggle);
+  initThemeSelector();
+  document.addEventListener('astro:page-load', initThemeSelector);
 </script>

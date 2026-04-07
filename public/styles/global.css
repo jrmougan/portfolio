@@ -159,6 +159,169 @@
 }
 
 /* ═══════════════════════════════════════════════════════
+   RETRO 90S THEME - Windows 95 / Geocities aesthetic
+   ═══════════════════════════════════════════════════════ */
+
+[data-theme="retro90s"] {
+  /* Backgrounds - Windows 95 silver */
+  --color-bg-base: #c0c0c0;
+  --color-bg-surface: #c0c0c0;
+  --color-bg-card: #c0c0c0;
+  --color-border: #808080;
+  --color-border-focus: #000080;
+
+  /* Text */
+  --color-text-primary: #000000;
+  --color-text-secondary: #333333;
+  --color-text-muted: #555555;
+
+  /* Classic web colors */
+  --color-green: #008000;
+  --color-cyan: #0000ee;
+  --color-purple: #800080;
+  --color-pink: #ff00ff;
+  --color-yellow: #808000;
+  --color-orange: #ff8c00;
+  --color-red: #ff0000;
+
+  /* Semantic accents */
+  --color-accent-1: #0000ee;
+  --color-accent-2: #800080;
+  --color-accent-3: #ff00ff;
+  --color-accent-prompt: #008000;
+
+  /* Era-appropriate system fonts */
+  --font-pixel: 'Comic Sans MS', 'MS Sans Serif', cursive;
+  --font-mono: 'Courier New', 'Fixedsys', monospace;
+  --font-body: 'Times New Roman', 'MS Serif', serif;
+  --font-heading: 'Times New Roman', 'MS Serif', serif;
+
+  /* Sharp edges */
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+
+  /* Hard shadows, no glow */
+  --shadow-glow-green: 2px 2px 0px #000000;
+  --shadow-glow-cyan: 2px 2px 0px #000000;
+  --shadow-glow-purple: 2px 2px 0px #000000;
+
+  /* No smooth transitions */
+  --transition-fast: 0ms;
+  --transition-normal: 0ms;
+}
+
+/* Win95 3D border on panels */
+[data-theme="retro90s"] .terminal-panel {
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  background: #c0c0c0;
+}
+
+/* Hide TUI box-drawing characters */
+[data-theme="retro90s"] .terminal-panel::before,
+[data-theme="retro90s"] .terminal-panel::after {
+  content: none;
+}
+
+/* Win95 title bar */
+[data-theme="retro90s"] .terminal-panel-header {
+  background: #000080;
+  border-bottom: 2px solid #808080;
+  color: #ffffff;
+}
+
+[data-theme="retro90s"] .terminal-panel-header::before,
+[data-theme="retro90s"] .terminal-panel-header::after {
+  content: none;
+}
+
+[data-theme="retro90s"] .terminal-panel-title {
+  color: #ffffff;
+  font-weight: bold;
+  font-family: 'Times New Roman', serif;
+}
+
+/* Pressed border on hover */
+[data-theme="retro90s"] .terminal-panel:hover {
+  border-color: #808080 #ffffff #ffffff #808080;
+}
+
+/* Tags as Win95 buttons */
+[data-theme="retro90s"] .tag {
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  background: #c0c0c0;
+  color: #000000;
+  border-radius: 0;
+}
+
+[data-theme="retro90s"] .tag:hover {
+  border-color: #808080 #ffffff #ffffff #808080;
+  color: #000000;
+}
+
+[data-theme="retro90s"] .tag--frontend,
+[data-theme="retro90s"] .tag--backend,
+[data-theme="retro90s"] .tag--tools,
+[data-theme="retro90s"] .tag--gamedev {
+  border-color: #ffffff #808080 #808080 #ffffff;
+  color: #000000;
+}
+
+/* Classic hyperlinks */
+[data-theme="retro90s"] a {
+  color: #0000ee;
+  text-decoration: underline;
+}
+
+[data-theme="retro90s"] a:hover {
+  color: #800080;
+}
+
+[data-theme="retro90s"] a:visited {
+  color: #800080;
+}
+
+/* Win95 scrollbar */
+[data-theme="retro90s"] ::-webkit-scrollbar {
+  width: 16px;
+}
+
+[data-theme="retro90s"] ::-webkit-scrollbar-track {
+  background: #c0c0c0;
+  border-left: 1px solid #808080;
+}
+
+[data-theme="retro90s"] ::-webkit-scrollbar-thumb {
+  background: #c0c0c0;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  border-radius: 0;
+}
+
+[data-theme="retro90s"] ::-webkit-scrollbar-thumb:hover {
+  background: #d4d0c8;
+}
+
+/* Selection - navy blue */
+[data-theme="retro90s"] ::selection {
+  background-color: #000080;
+  color: #ffffff;
+}
+
+/* Cursor and prompt in retro mode */
+[data-theme="retro90s"] .cursor-blink::after {
+  color: #000000;
+  font-family: 'Courier New', monospace;
+}
+
+[data-theme="retro90s"] .prompt::before {
+  color: #008000;
+  font-family: 'Courier New', monospace;
+}
+
+/* ═══════════════════════════════════════════════════════
    BASE STYLES
    ═══════════════════════════════════════════════════════ */
 

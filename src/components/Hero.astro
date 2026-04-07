@@ -222,6 +222,44 @@ const badgeText = availabilityText[lang] || availabilityText.es;
     filter: saturate(1) contrast(1);
   }
 
+  /* Win95 overrides */
+  :global([data-theme="retro90s"]) .badge {
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    color: #008000;
+    border-radius: 0;
+  }
+
+  :global([data-theme="retro90s"]) .badge-dot {
+    background: #008000;
+    border-radius: 0;
+  }
+
+  :global([data-theme="retro90s"]) .btn {
+    border: 2px solid;
+    border-color: #ffffff #808080 #808080 #ffffff;
+    background: #c0c0c0;
+    color: #000000;
+    box-shadow: none;
+  }
+
+  :global([data-theme="retro90s"]) .btn:hover {
+    border-color: #808080 #ffffff #ffffff #808080;
+    background: #c0c0c0;
+    box-shadow: none;
+    color: #000000;
+  }
+
+  :global([data-theme="retro90s"]) .btn .icon {
+    color: #000000;
+  }
+
+  :global([data-theme="retro90s"]) .photo-wrapper {
+    border: 2px solid;
+    border-color: #808080 #ffffff #ffffff #808080;
+    border-radius: 0;
+  }
+
   @media (max-width: 768px) {
     .hero-layout {
       flex-direction: column-reverse;
