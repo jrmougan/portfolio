@@ -715,3 +715,42 @@ a:hover {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--color-border-focus);
 }
+
+/* ═══════════════════════════════════════════════════════
+   SHIKI SYNTAX HIGHLIGHTING - Dual theme control
+   ═══════════════════════════════════════════════════════ */
+
+/* Dark themes (default + retro90s): github-dark */
+.astro-code,
+.astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
+}
+
+/* Light themes (light + y2k): github-light */
+[data-theme="light"] .astro-code,
+[data-theme="light"] .astro-code span,
+[data-theme="y2k"] .astro-code,
+[data-theme="y2k"] .astro-code span {
+  color: var(--shiki-light) !important;
+  background-color: var(--shiki-light-bg) !important;
+  font-style: var(--shiki-light-font-style) !important;
+  font-weight: var(--shiki-light-font-weight) !important;
+  text-decoration: var(--shiki-light-text-decoration) !important;
+}
+
+/* retro90s: Win95 inset border on code blocks */
+[data-theme="retro90s"] .astro-code {
+  border: 2px solid !important;
+  border-color: #808080 #ffffff #ffffff #808080 !important;
+  border-radius: 0 !important;
+}
+
+/* y2k: rounded glossy code block */
+[data-theme="y2k"] .astro-code {
+  border-radius: 10px !important;
+  box-shadow: 0 2px 8px rgba(0, 80, 180, 0.15) !important;
+}
