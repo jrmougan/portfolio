@@ -6,9 +6,9 @@ export interface Props {
 const { lang = 'es' } = Astro.props;
 
 const themeLabels: Record<string, Record<string, string>> = {
-  es: { label: 'Tema', dark: 'Oscuro', light: 'Claro', retro90s: 'Retro 90s' },
-  en: { label: 'Theme', dark: 'Dark',   light: 'Light', retro90s: 'Retro 90s' },
-  gl: { label: 'Tema', dark: 'Escuro',  light: 'Claro', retro90s: 'Retro 90s' },
+  es: { label: 'Tema', dark: 'Oscuro', light: 'Claro', retro90s: 'Retro 90s', y2k: 'Web 2.0' },
+  en: { label: 'Theme', dark: 'Dark',  light: 'Light', retro90s: 'Retro 90s', y2k: 'Web 2.0' },
+  gl: { label: 'Tema', dark: 'Escuro', light: 'Claro', retro90s: 'Retro 90s', y2k: 'Web 2.0' },
 };
 
 const t = themeLabels[lang] || themeLabels.es;
@@ -51,6 +51,12 @@ const t = themeLabels[lang] || themeLabels.es;
         <line x1="12" y1="17" x2="12" y2="16"></line>
       </svg>
     </span>
+    <span class="theme-icon theme-icon--y2k">
+      <!-- Sparkle / Web 2.0 star -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+      </svg>
+    </span>
     <!-- Chevron -->
     <svg class="chevron" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
       <polyline points="6 9 12 15 18 9"></polyline>
@@ -85,6 +91,12 @@ const t = themeLabels[lang] || themeLabels.es;
         <line x1="12" y1="17" x2="12" y2="16"></line>
       </svg>
       {t.retro90s}
+    </button>
+    <button class="theme-option" role="option" data-theme-value="y2k">
+      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+      </svg>
+      {t.y2k}
     </button>
   </div>
 </div>
@@ -130,9 +142,10 @@ const t = themeLabels[lang] || themeLabels.es;
 
   .theme-icon svg { display: block; }
 
-  :global([data-theme="dark"])    .theme-icon--dark  { display: flex; }
-  :global([data-theme="light"])   .theme-icon--light { display: flex; }
+  :global([data-theme="dark"])     .theme-icon--dark  { display: flex; }
+  :global([data-theme="light"])    .theme-icon--light { display: flex; }
   :global([data-theme="retro90s"]) .theme-icon--retro { display: flex; }
+  :global([data-theme="y2k"])      .theme-icon--y2k   { display: flex; }
 
   .chevron {
     opacity: 0.6;
@@ -234,11 +247,51 @@ const t = themeLabels[lang] || themeLabels.es;
   :global([data-theme="retro90s"]) .theme-option[aria-selected="true"]:hover {
     color: #ffffff;
   }
+
+  /* ── Y2K / Web 2.0 overrides ─────────────────────────── */
+
+  :global([data-theme="y2k"]) .theme-trigger {
+    background: linear-gradient(180deg, #5ba3f5 0%, #0066cc 100%);
+    border: 1px solid #0050aa;
+    border-radius: 6px;
+    color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 80, 180, 0.3), inset 0 1px 0 rgba(255,255,255,0.4);
+  }
+
+  :global([data-theme="y2k"]) .theme-trigger:hover,
+  :global([data-theme="y2k"]) .theme-trigger[aria-expanded="true"] {
+    background: linear-gradient(180deg, #80b8ff 0%, #0055bb 100%);
+    color: #ffffff;
+    border-color: #003388;
+  }
+
+  :global([data-theme="y2k"]) .theme-dropdown {
+    border: 1px solid #a8c8f0;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 4px 16px rgba(0, 80, 180, 0.2);
+  }
+
+  :global([data-theme="y2k"]) .theme-option {
+    border-radius: 6px;
+    color: #2d4a7a;
+    font-family: 'Trebuchet MS', sans-serif;
+  }
+
+  :global([data-theme="y2k"]) .theme-option:hover {
+    background: linear-gradient(180deg, #e8f4ff 0%, #c8e4ff 100%);
+    color: #0066cc;
+  }
+
+  :global([data-theme="y2k"]) .theme-option[aria-selected="true"] {
+    color: #0066cc;
+    font-weight: bold;
+  }
 </style>
 
 <script>
   function initThemeSelector() {
-    const VALID_THEMES = ['dark', 'light', 'retro90s'];
+    const VALID_THEMES = ['dark', 'light', 'retro90s', 'y2k'];
     const html = document.documentElement;
 
     const setTheme = (theme: string) => {

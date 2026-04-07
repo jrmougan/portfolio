@@ -159,6 +159,164 @@
 }
 
 /* ═══════════════════════════════════════════════════════
+   Y2K / WEB 2.0 THEME - 2000s glossy web aesthetic
+   ═══════════════════════════════════════════════════════ */
+
+[data-theme="y2k"] {
+  /* Backgrounds - light blue-white portal style */
+  --color-bg-base: #ddeeff;
+  --color-bg-surface: #ffffff;
+  --color-bg-card: #f0f6ff;
+  --color-border: #a8c8f0;
+  --color-border-focus: #0066cc;
+
+  /* Text */
+  --color-text-primary: #1a2a4a;
+  --color-text-secondary: #2d4a7a;
+  --color-text-muted: #7090b8;
+
+  /* Web 2.0 color palette */
+  --color-green: #3aaa00;
+  --color-cyan: #0099ff;
+  --color-purple: #7b2fff;
+  --color-pink: #ff3399;
+  --color-yellow: #ffcc00;
+  --color-orange: #ff6600;
+  --color-red: #dd2200;
+
+  /* Semantic accents - blue primary, orange secondary */
+  --color-accent-1: #0066cc;
+  --color-accent-2: #ff6600;
+  --color-accent-3: #7b2fff;
+  --color-accent-prompt: #3aaa00;
+
+  /* Web-safe 2000s fonts */
+  --font-pixel: 'Trebuchet MS', 'Tahoma', sans-serif;
+  --font-mono: 'Courier New', 'Lucida Console', monospace;
+  --font-body: 'Trebuchet MS', 'Verdana', 'Tahoma', sans-serif;
+  --font-heading: 'Trebuchet MS', 'Verdana', sans-serif;
+
+  /* Rounder corners - Web 2.0 loved curves */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  /* Soft drop shadows */
+  --shadow-glow-green: 0 2px 8px rgba(58, 170, 0, 0.35);
+  --shadow-glow-cyan: 0 2px 8px rgba(0, 102, 204, 0.35);
+  --shadow-glow-purple: 0 2px 8px rgba(123, 47, 255, 0.35);
+
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+}
+
+/* Glossy gradient panels */
+[data-theme="y2k"] .terminal-panel {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 80, 180, 0.12), 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="y2k"] .terminal-panel::before,
+[data-theme="y2k"] .terminal-panel::after {
+  content: none;
+}
+
+/* Gradient header bar */
+[data-theme="y2k"] .terminal-panel-header {
+  background: linear-gradient(180deg, #4d9de0 0%, #0066cc 100%);
+  border-bottom: 1px solid #0050aa;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  color: #ffffff;
+}
+
+[data-theme="y2k"] .terminal-panel-header::before,
+[data-theme="y2k"] .terminal-panel-header::after {
+  content: none;
+}
+
+[data-theme="y2k"] .terminal-panel-title {
+  color: #ffffff;
+  font-weight: bold;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="y2k"] .terminal-panel:hover {
+  border-color: #0066cc;
+  box-shadow: 0 4px 16px rgba(0, 80, 180, 0.2), 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Glossy tag badges */
+[data-theme="y2k"] .tag {
+  border: 1px solid #a0bce0;
+  border-radius: 20px;
+  background: linear-gradient(180deg, #f5f9ff 0%, #ddeeff 100%);
+  color: #2d4a7a;
+  font-family: 'Trebuchet MS', sans-serif;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="y2k"] .tag:hover {
+  border-color: #0066cc;
+  background: linear-gradient(180deg, #e8f4ff 0%, #c8e4ff 100%);
+  color: #0066cc;
+}
+
+[data-theme="y2k"] .tag--frontend { border-color: #0099ff; color: #0066cc; background: linear-gradient(180deg, #f0f8ff 0%, #d0eaff 100%); }
+[data-theme="y2k"] .tag--backend  { border-color: #ff6600; color: #cc4400; background: linear-gradient(180deg, #fff5f0 0%, #ffe0cc 100%); }
+[data-theme="y2k"] .tag--tools    { border-color: #ffaa00; color: #cc7700; background: linear-gradient(180deg, #fffaf0 0%, #ffedc0 100%); }
+[data-theme="y2k"] .tag--gamedev  { border-color: #cc2200; color: #aa1100; background: linear-gradient(180deg, #fff0f0 0%, #ffd0cc 100%); }
+
+/* Classic blue underlined links */
+[data-theme="y2k"] a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+[data-theme="y2k"] a:hover {
+  color: #0044aa;
+  text-decoration: underline;
+}
+
+/* Rounded blue scrollbar */
+[data-theme="y2k"] ::-webkit-scrollbar {
+  width: 10px;
+}
+
+[data-theme="y2k"] ::-webkit-scrollbar-track {
+  background: #ddeeff;
+  border-radius: 10px;
+}
+
+[data-theme="y2k"] ::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #5ba3f5 0%, #0066cc 100%);
+  border-radius: 10px;
+  border: 1px solid #a8c8f0;
+}
+
+[data-theme="y2k"] ::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #80b8ff 0%, #0055bb 100%);
+}
+
+/* Selection - blue */
+[data-theme="y2k"] ::selection {
+  background-color: #0066cc;
+  color: #ffffff;
+}
+
+/* Prompt in green */
+[data-theme="y2k"] .prompt::before {
+  color: #3aaa00;
+  font-family: 'Trebuchet MS', sans-serif;
+}
+
+[data-theme="y2k"] .cursor-blink::after {
+  color: #0066cc;
+  font-family: 'Trebuchet MS', sans-serif;
+}
+
+/* ═══════════════════════════════════════════════════════
    RETRO 90S THEME - Windows 95 / Geocities aesthetic
    ═══════════════════════════════════════════════════════ */
 

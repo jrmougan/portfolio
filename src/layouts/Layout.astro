@@ -23,7 +23,7 @@ const { title, description = "Portfolio & Blog - Jesús Romeo Mougán", lang } =
     <meta property="og:locale" content={lang} />
     <!-- Prevent theme flash -->
     <script is:inline>
-      const VALID_THEMES = ['dark', 'light', 'retro90s'];
+      const VALID_THEMES = ['dark', 'light', 'retro90s', 'y2k'];
       const stored = localStorage.getItem('theme');
       const theme = VALID_THEMES.includes(stored) ? stored :
         (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
