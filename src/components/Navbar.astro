@@ -151,21 +151,7 @@ const currentPath = basePath || '';
     background: rgba(255, 255, 255, 0.05);
   }
 
-  [data-theme="light"] .nav-link:hover {
-    background: rgba(0, 0, 0, 0.05);
-  }
-
-  [data-theme="retro90s"] .nav-link:hover {
-    background: #000080;
-    color: #ffffff;
-  }
-
-  [data-theme="retro90s"] .nav-link.active {
-    color: #000080;
-    text-decoration: underline;
-  }
-
-  .nav-link.active { color: var(--color-cyan); }
+  .nav-link.active { color: var(--color-accent); }
 
   /* Right side group: lang-switcher + theme + hamburger */
   .nav-right {
@@ -200,20 +186,6 @@ const currentPath = basePath || '';
   .lang-btn:hover {
     color: var(--color-text-primary);
     background: rgba(255, 255, 255, 0.05);
-  }
-
-  [data-theme="light"] .lang-btn:hover {
-    background: rgba(0, 0, 0, 0.05);
-  }
-
-  [data-theme="retro90s"] .lang-btn:hover {
-    background: #000080;
-    color: #ffffff;
-  }
-
-  [data-theme="retro90s"] .lang-btn.active {
-    background: #000080;
-    color: #ffffff;
   }
 
   .lang-btn.active {
@@ -324,21 +296,6 @@ const currentPath = basePath || '';
     color: var(--color-text-primary);
     background: rgba(255, 255, 255, 0.04);
     border-left-color: var(--color-border);
-  }
-
-  [data-theme="light"] .mobile-nav-link:hover {
-    background: rgba(0, 0, 0, 0.04);
-  }
-
-  [data-theme="retro90s"] .mobile-nav-link:hover {
-    background: #000080;
-    color: #ffffff;
-    border-left-color: #000080;
-  }
-
-  [data-theme="retro90s"] .navbar {
-    border-bottom: 2px solid;
-    border-bottom-color: #808080;
   }
 
   .mobile-nav-link.active {
