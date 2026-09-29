@@ -1,43 +1,44 @@
-# Astro Starter Kit: Minimal
+# Portfolio
 
-```sh
-npm create astro@latest -- --template minimal
+Sitio estático con Astro 6, MDX y contenido en español, gallego e inglés.
+
+## Desarrollo
+
+Instala [mise](https://mise.jdx.dev/getting-started.html) y, desde este repositorio:
+
+```bash
+mise trust
+mise install
+mise run setup
+mise run dev
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+`mise.toml` fija Node 24.21.0 y su npm incluido (11.19.0). `setup` ejecuta
+`npm ci` con el lockfile existente. Astro sirve en `http://localhost:4321`.
+El contenido del CV se descarga del repositorio `jrmougan/cv`: tanto el arranque
+como la compilación necesitan acceso a GitHub.
 
-## 🚀 Project Structure
+| Comando | Acción |
+| --- | --- |
+| `mise run setup` | Instalar dependencias desde el lockfile |
+| `mise run dev` | Servidor de desarrollo |
+| `mise run check` | Compilar para validar contenido y rutas |
+| `mise run build` | Generar `dist/` |
+| `mise run preview` | Previsualizar la compilación |
 
-Inside of your Astro project, you'll see the following folders and files:
+No hay una suite independiente de tests o lint; `check` es actualmente el build.
+CI utiliza las mismas herramientas y esa misma comprobación.
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
+## Orca y worktrees
+
+En cada checkout nuevo ejecuta `mise trust` y `mise run setup`. El comando de
+preparación para un hook de Orca es `mise run setup` (tras confiar en el repo).
+No depende de que el shell tenga Node activado; sí requiere `mise` en `PATH`.
+Para dos servidores simultáneos, asigna otro puerto al segundo:
+
+```bash
+mise run dev -- --port 4322
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Los comandos npm originales siguen disponibles, por ejemplo
+`mise exec -- npm run astro -- --help`.
