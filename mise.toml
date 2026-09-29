@@ -1,0 +1,22 @@
+[tools]
+node = "24.21.0" # Includes npm 11.19.0; keep the existing package-lock.json.
+
+[tasks.setup]
+description = "Install dependencies from the lockfile"
+run = "npm ci"
+
+[tasks.dev]
+description = "Start Astro (pass --port for another worktree)"
+run = "npm run dev --"
+
+[tasks.build]
+description = "Build the static site"
+run = "npm run build"
+
+[tasks.check]
+description = "Validate by building (no separate lint/test suite exists yet)"
+run = "npm run build"
+
+[tasks.preview]
+description = "Preview the production build"
+run = "npm run preview --"
