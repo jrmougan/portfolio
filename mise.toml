@@ -1,5 +1,5 @@
 [tools]
-node = "24.21.0" # Includes npm 11.19.0; keep the existing package-lock.json.
+node = "24.22.2" # Includes npm 11.19.0; keep the existing package-lock.json.
 
 [tasks.setup]
 description = "Install dependencies from the lockfile"
